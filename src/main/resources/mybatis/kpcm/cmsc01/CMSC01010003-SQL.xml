@@ -15,7 +15,7 @@
     =======================================================
     -->    
     <update id="update00" parameterType="cmsc01010003VO">
-        /*Cm0101Dao.updateBoard [게시판 수정]*/
+        /*Cmsc01010003Dao.updateBoard [게시판 수정]*/
         UPDATE TB_BOARD SET TITLE = #{title}
                           , CONTENTS= #{contents}
                           , UPD_DT = TO_CHAR(sysdate,'YYYY-MM-DD')

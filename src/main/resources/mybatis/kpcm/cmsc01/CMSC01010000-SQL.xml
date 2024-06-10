@@ -14,7 +14,7 @@
     =======================================================
     -->
     <select id="selectList00" parameterType="cmsc01010000Vo" resultType="cmsc01010000Vo">
-        /*kp.cm.cm01.dao.Cm0101Dao.selectList00[게시판리스트조회]*/
+        /*Cmsc01010000Dao.selectList00[게시판리스트조회]*/
         SELECT ROWNUM AS ID
              , IDX
              , PARENT_IDX

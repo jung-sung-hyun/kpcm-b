@@ -16,7 +16,7 @@
     -->
     <select id="select00" parameterType="cmsc01020000Vo" resultType="cmsc01020000Vo">
     <![CDATA[
-        /*Cm0102Dao.selectUser [사용자 조회]*/
+        /*Cmsc01020000Dao.selectUser [사용자 조회]*/
         SELECT T1.MBR_ID
              , T1.MBR_NM
              , T1.MBR_EML_ADDR
@@ -50,7 +50,7 @@
     =======================================================
     -->    
     <update id="update00" parameterType="cmsc01020000Vo">
-    /*Cm0102Dao.update00 [로그인 실폐회수 ]*/
+    /*Cmsc01020000Dao.update00 [로그인 실폐회수 ]*/
     <![CDATA[
         UPDATE MB_MBR_B SET LGN_ERR_NOCS = #{lgnerrNocs}
                           , LGN_LMT_HR   = CASE WHEN #{lgnerrNocs} < 5 then sysdate ELSE sysdate + 5/(24*60) END--5분더하기

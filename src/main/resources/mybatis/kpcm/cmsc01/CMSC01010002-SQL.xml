@@ -14,7 +14,7 @@
     =======================================================
     -->    
     <select id="select00" parameterType="cmsc01010002Vo" resultType="cmsc01010002Vo">
-        /*Cm0101Dao.selectOne [게시판 단일조회]*/
+        /*Cmsc01010002Dao.selectOne [게시판 단일조회]*/
         SELECT IDX
              , PARENT_IDX
              , TITLE
