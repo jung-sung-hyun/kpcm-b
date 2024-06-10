@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kp.cmsc.cmsc01.dao.Cmsc01010003Dao">
+    <!-- 
+       - SQL  명  : 게시판 수정
+       - 작 성 자 : 정성현
+       - 작 성 일 : 2024-05-13
+       - 파라미터
+         1. title    String(500)//시작일자
+         2. contents String(4000)//종료일자
+         3. idx      NUMBER//게시판번호
+       - 이력관리
+    =================수정일자/요청자/내용 =================
+    1. 2024.04.12/ 정성현/ 최초작성
+    =======================================================
+    -->    
+    <update id="update00" parameterType="cmsc01010003VO">
+        /*Cm0101Dao.updateBoard [게시판 수정]*/
+        UPDATE TB_BOARD SET TITLE = #{title}
+                          , CONTENTS= #{contents}
+                          , UPD_DT = TO_CHAR(sysdate,'YYYY-MM-DD')
+         WHERE IDX=#{idx}
+    </update>
+
+</mapper>

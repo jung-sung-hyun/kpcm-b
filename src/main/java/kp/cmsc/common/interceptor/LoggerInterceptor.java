@@ -1,0 +1,191 @@
+package kp.cmsc.common.interceptor;
+//import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpServletResponse;
+
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.Enumeration;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.ContentCachingRequestWrapper;
+import org.springframework.web.util.ContentCachingResponseWrapper;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import kp.cmsc.common.util.StringUtil;
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
+@Component
+public class LoggerInterceptor implements HandlerInterceptor {
+
+
+    @Autowired
+    private RequestInputParamSetJdbc requestInputParamSetJdbc;
+
+    private final ObjectMapper objectMapper;
+
+    public LoggerInterceptor(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+            throws Exception {
+//          log.info("Request URL: {}, Method: {}", request.getRequestURL(), request.getMethod());
+//          log.info("===================request.getMethod()==========================");
+//          log.info(request.getMethod());
+//          log.info("==========================request.getMethod()===================");
+        if (!(request instanceof ContentCachingRequestWrapper)) {
+            request = new ContentCachingRequestWrapper(request);
+        }
+        if (!(response instanceof ContentCachingResponseWrapper)) {
+            response = new ContentCachingResponseWrapper(response);
+        }
+        return true;
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+            ModelAndView modelAndView) throws Exception {
+        log.info("Response Status: {}", response.getStatus());
+
+
+
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
+            Exception ex) throws Exception {
+        if (ex != null) {
+            log.error("Exception during request processing: {}", ex.getMessage());
+        }
+
+        if (request instanceof ContentCachingRequestWrapper) {
+            ContentCachingRequestWrapper cachingRequest = (ContentCachingRequestWrapper) request;
+            // 캐시된 요청 본문 데이터 읽기
+            byte[] cachedRequestBody = cachingRequest.getContentAsByteArray();
+            String requestBody = new String(cachedRequestBody, request.getCharacterEncoding());
+            //byte[] requestBody = cachingRequest.getContentAsByteArray();
+            String ipAddr = getLocalAddress().toString().replace("/", "");
+//            String ipAddr =  LocalIpAddressUtil.getClientIP(cachingRequest);
+
+            String reqURL = cachingRequest.getRequestURL().toString();
+            int resStatus = response.getStatus();
+            String macAddr = macAddressGetNetwork();
+            StringBuffer sbHeder = new StringBuffer();
+            Enumeration<String> headerNames = request.getHeaderNames();
+            if (headerNames != null) {
+                while (headerNames.hasMoreElements()) {
+                    String headerName = headerNames.nextElement();
+                    String headerValue = request.getHeader(headerName);
+                    sbHeder.append(headerName);
+                    sbHeder.append(" = ");
+                    sbHeder.append(headerValue);
+                    sbHeder.append("\n"); // 줄 바꿈 추가
+                    log.info("Header: {} = {}", headerName, headerValue);
+                }
+            }
+            if(!"".equals(StringUtil.checkNull(requestBody))) {
+                requestInputParamSetJdbc.insertRequestInputData(ipAddr,requestBody.toString(),StringUtil.checkNull(resStatus), sbHeder.toString(),reqURL,macAddr);
+            }
+//            public void insertRequestInputData(String ipAddr, String requestBody, String resStatus, String sbHeder, String reqURL) {
+        }
+
+        log.info("Request completed");
+    }
+    /**
+     * request 파라미터 추가하기
+     * @param request
+     * @param paramName
+     * @param paramValue
+     * @return
+     */
+    public String buildUrlWithParameter(HttpServletRequest request, String paramName, String paramValue) {
+        StringBuffer url = request.getRequestURL();
+
+        // URL에 이미 쿼리 파라미터가 있는지 확인
+        String queryString = request.getQueryString();
+        if (queryString == null || queryString.isEmpty()) {
+            url.append("?"); // 쿼리 시작
+        } else {
+            url.append("&"); // 추가 파라미터
+        }
+
+        // 새 파라미터 추가
+        url.append(paramName).append("=").append(paramValue);
+
+        return url.toString();
+    }
+
+
+    public static String getHostAddress() {
+        InetAddress localAddress = getLocalAddress();
+        if (localAddress == null) {
+            try {
+                return Inet4Address.getLocalHost().getHostAddress();
+            } catch (UnknownHostException e) {
+                ;
+            }
+        } else {
+            return localAddress.getHostAddress();
+        }
+        return "";
+    }
+
+    private static InetAddress getLocalAddress() {
+        try {
+            Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+            while (networkInterfaces.hasMoreElements()) {
+                List<InterfaceAddress> interfaceAddresses = networkInterfaces.nextElement().getInterfaceAddresses();
+                for (InterfaceAddress interfaceAddress : interfaceAddresses) {
+                    InetAddress address =interfaceAddress.getAddress();
+                    if (address.isSiteLocalAddress()) {
+                        return address;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            ;
+        }
+        return null;
+    }
+
+    public String  macAddressGetNetwork() throws SocketException {
+        // 모든 네트워크 인터페이스를 열거
+        Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+        String macAddr = "";
+        while (networkInterfaces.hasMoreElements()) {
+            NetworkInterface networkInterface = networkInterfaces.nextElement();
+
+            // 하드웨어 주소 (MAC 주소) 가져오기
+            byte[] mac = networkInterface.getHardwareAddress();
+
+            if (mac != null) {
+                System.out.print("Interface: " + networkInterface.getDisplayName() + " - MAC Address: ");
+
+                // MAC 주소를 16진수 문자열로 변환하여 출력
+                StringBuilder macAddress = new StringBuilder();
+                for (int i = 0; i < mac.length; i++) {
+                    macAddress.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
+                }
+                macAddr = macAddress.toString();
+                if(!"".equals(StringUtil.checkNull(macAddr))) {
+                    break;
+                }
+                log.info("=========================macAddr:===>>:{}",macAddr);
+            }
+        }
+        return macAddr;
+    }
+
+
+}

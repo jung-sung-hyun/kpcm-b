@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kp.cmsc.cmsc01.dao.Cmsc01030000Dao">
+     <!-- 
+       - SQL  명  : 메인메뉴의 메뉴리스트를 조회한다.
+       - 작 성 자 : 정성현
+       - 작 성 일 : 2024-06-01
+       - 파라미터
+         1. UP_MENU_ID VARCHAR2(20)//상위메뉴ID
+         
+       - 이력관리
+    =================수정일자/요청자/내용 =================
+    1. 2024.06.01/ 정성현/ 최초작성
+    =======================================================
+    -->
+    <select id="selectList00" parameterType="cmsc01030000Vo" resultType="cmsc01030000Vo">
+        /*Cm0101Dao.selectMenuList[메뉴리스트조회]*/
+        SELECT LPAD(' ', 2*(LEVEL-1)) || MENU_NM MENU_NMS
+             ,(LEVEL-1) AS LEVELS
+             , T1.MENU_ID
+             , T1.SYS_SE_CD
+             , T1.UP_MENU_ID
+             , T1.MENU_NM
+             , T1.MENU_SEQ
+             , T1.MENU_EXPLN
+             , T1.MENU_LVL
+             , T1.PRGRM_ID
+             , T1.PRGRM_PATH
+             , T1.URL_ADDR
+             , T1.USE_YN
+          FROM CM_MENU_B T1
+         WHERE T1.USE_YN='Y'
+           AND T1.MENU_ID IN (SELECT T3.MENU_ID FROM CM_AUTHRT_MENU_DSCTN_B T3 WHERE T3.AUTHRT_ID IN 
+	           <foreach item="id" collection="idList" open="(" separator="," close=")">
+	               #{id}
+	           </foreach>
+           )
+           AND T1.MENU_LVL > 0
+    START WITH T1.UP_MENU_ID IS NULL
+    CONNECT BY PRIOR T1.MENU_ID = T1.UP_MENU_ID 
+    </select>
+
+</mapper>

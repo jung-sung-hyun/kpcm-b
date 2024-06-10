@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kp.cmsc.cmsc01.dao.Cmsc01010002Dao">
+ 
+    <!-- 
+       - SQL  명  : 게시판 단일조회
+       - 작 성 자 : 정성현
+       - 작 성 일 : 2024-05-13
+       - 파라미터
+         1. idx      NUMBER//게시판번호
+       - 이력관리
+    =================수정일자/요청자/내용 =================
+    1. 2024.04.12/ 정성현/ 최초작성
+    =======================================================
+    -->    
+    <select id="select00" parameterType="cmsc01010002Vo" resultType="cmsc01010002Vo">
+        /*Cm0101Dao.selectOne [게시판 단일조회]*/
+        SELECT IDX
+             , PARENT_IDX
+             , TITLE
+             , CONTENTS
+             , UPD_DT 
+          FROM TB_BOARD
+         WHERE IDX = #{idx}
+    </select>
+
+    <!-- 
+       - SQL  명  : 게시판 삭제
+       - 작 성 자 : 정성현
+       - 작 성 일 : 2024-05-13
+       - 파라미터
+         1. idx    NUMBER//게시판번호
+       - 이력관리
+    =================수정일자/요청자/내용 =================
+    1. 2024.04.12/ 정성현/ 최초작성
+    =======================================================
+    -->    
+    <delete id="delete00" parameterType="cmsc01010002Vo">
+        /*Cm0101Dao.deleteBoard [게시판 삭제]*/
+        DELETE 
+          FROM TB_BOARD 
+         WHERE IDX=#{idx}
+    </delete>
+
+</mapper>
