@@ -15,21 +15,28 @@
     =======================================================
     -->
     <select id="select00" parameterType="cmsc01020000Vo" resultType="cmsc01020000Vo">
-        /*Cm0101Dao.selectUser [사용자 조회]*/
+    <![CDATA[
+        /*Cm0102Dao.selectUser [사용자 조회]*/
         SELECT T1.MBR_ID
              , T1.MBR_NM
+             , T1.MBR_EML_ADDR
              , T1.USER_PSWD
              , LISTAGG(T2.AUTHRT_ID, ',') WITHIN GROUP(ORDER BY T2.AUTHRT_ID) AS AUTHRT_ID_S
+             , CASE WHEN T1.USER_PSWD = #{userPswd} THEN 'Y' ELSE 'N' END AS LOGIN_YN
+             , T1.LGN_ERR_NOCS
+             , CASE WHEN NVL(T1.LGN_LMT_HR,sysdate) <= sysdate AND T1.LGN_ERR_NOCS < 5 THEN 'Y' ELSE 'N' END AS REJ_TIME_YN
           FROM MB_MBR_B T1
      LEFT JOIN CM_MBR_AUTHRT_B T2 ON 
                T1.MBR_ID = T2.MBR_ID
          WHERE T1.MBR_EML_ADDR = #{mbrEmlAddr}
-           AND T1.USER_PSWD    = #{userPswd}
            AND T1.USE_YN       = 'Y' 
       GROUP BY T1.MBR_ID
              , T1.MBR_NM
+             , T1.MBR_EML_ADDR
              , T1.USER_PSWD
-           
+             , T1.LGN_ERR_NOCS
+             , T1.LGN_LMT_HR
+    ]]>
     </select>
     <!-- 
        - SQL  명  : 로그인 실폐회수 업데이트
@@ -43,8 +50,11 @@
     =======================================================
     -->    
     <update id="update00" parameterType="cmsc01020000Vo">
-        UPDATE MB_MBR_B SET LGN_ERR_NOCS = LGN_ERR_NOCS + 1
-                          , LGN_LMT_HR = LGN_LMT_HR + 5/(24*60)--5분더하기
+    /*Cm0102Dao.update00 [로그인 실폐회수 ]*/
+    <![CDATA[
+        UPDATE MB_MBR_B SET LGN_ERR_NOCS = #{lgnerrNocs}
+                          , LGN_LMT_HR   = CASE WHEN #{lgnerrNocs} < 5 then sysdate ELSE sysdate + 5/(24*60) END--5분더하기
          WHERE MBR_EML_ADDR = #{mbrEmlAddr}
+    ]]>
     </update>
 </mapper>

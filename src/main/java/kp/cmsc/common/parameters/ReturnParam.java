@@ -1,5 +1,6 @@
 package kp.cmsc.common.parameters;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,7 @@ public class ReturnParam {
      *  bizMessage : 화면으로 전달될 비지니스 메시지명
      *  connectHash: 화몀으로 전달되는 connection Hans code
      * throws Exception
+     * @author : jung sung hyun
      */
     public static Map<String, Object>  pushParamAction(Object inputObj, Object outputObj,String bizCode,String bizMessage ) throws Exception{
         Map<String, Object> returnParam = new HashMap<>();
@@ -69,6 +71,7 @@ public class ReturnParam {
      *  dataList  : 화면에 전달되는 리스트 형태의 파라미터
      *  connectHash: 화몀으로 전달되는 connection Hans code
      * throws Exception
+     * @author : jung sung hyun
      */
     public static Map<String, Object>  pushParamAction(Object inputObj, Object outputObj) throws Exception{
         Map<String, Object> returnParam = new HashMap<>();
@@ -107,6 +110,7 @@ public class ReturnParam {
      *  dataList  : 화면에 전달되는 리스트 형태의 파라미터
      *  connectHash: 화몀으로 전달되는 connection Hans code
      * throws Exception
+     * @author : jung sung hyun
      */
     public static Map<String, Object>   pushErrorAction(String errCode) throws Exception{
         Map<String, Object> returnParam = new HashMap<>();
@@ -114,4 +118,63 @@ public class ReturnParam {
         returnParam.put("errMessage", MessageUtil.getMessage(errCode));
         return returnParam;
     }
+
+    /**
+     *  화면에 전달 되는 파라미터의 정의 화면에서 해당 파라미터로 전달 받아 처리함.
+     * @param String errCode : 에러커드전달
+     * @param int num: 들어갈 숫자 횟수
+     * @return
+     *  dateSingle: 화면으로 전달될 single 형 파리미터
+     *  dataList  : 화면에 전달되는 리스트 형태의 파라미터
+     *  connectHash: 화몀으로 전달되는 connection Hans code
+     * throws Exception
+     * @author : jung sung hyun
+     */
+    public static Map<String, Object>   pushErrorAction(String errCode,int num) throws Exception{
+        Map<String, Object> returnParam = new HashMap<>();
+        returnParam.put("errCode", errCode);
+        //String.format("이름: %s, 나이: %d", name, name);
+        returnParam.put("errMessage", String.format(MessageUtil.getMessage(errCode),num));
+        return returnParam;
+    }
+
+    /**
+     *  화면에 전달 되는 파라미터의 정의 화면에서 해당 파라미터로 전달 받아 처리함.
+     * @param String errCode : 에러커드전달
+     * @param String message: 들어갈 숫자 횟수
+     * @return
+     *  dateSingle: 화면으로 전달될 single 형 파리미터
+     *  dataList  : 화면에 전달되는 리스트 형태의 파라미터
+     *  connectHash: 화몀으로 전달되는 connection Hans code
+     * throws Exception
+     * @author : jung sung hyun
+     */
+    public static Map<String, Object>   pushErrorAction(String errCode,String message) throws Exception{
+        Map<String, Object> returnParam = new HashMap<>();
+        returnParam.put("errCode", errCode);
+        //String.format("이름: %s, 나이: %d", name, name);
+        returnParam.put("errMessage", String.format(MessageUtil.getMessage(errCode),message));
+        return returnParam;
+    }
+
+    /**
+     *  화면에 전달 되는 파라미터의 정의 화면에서 해당 파라미터로 전달 받아 처리함.
+     * @param String errCode : 에러커드전달
+     * @param int num: 들어갈 숫자 횟수
+     * @return
+     *  dateSingle: 화면으로 전달될 single 형 파리미터
+     *  dataList  : 화면에 전달되는 리스트 형태의 파라미터
+     *  connectHash: 화몀으로 전달되는 connection Hans code
+     * throws Exception
+     */
+    public static Map<String, Object>   pushErrorAction(String errCode,Object[] messageArguments) throws Exception{
+        Map<String, Object> returnParam = new HashMap<>();
+        returnParam.put("errCode", errCode);
+        //MessageFormat.format(pattern, messageArguments);
+        returnParam.put("errMessage", MessageFormat.format(MessageUtil.getMessage(errCode),messageArguments));
+        return returnParam;
+    }
+
+
+    // Object[] messageArguments
 }

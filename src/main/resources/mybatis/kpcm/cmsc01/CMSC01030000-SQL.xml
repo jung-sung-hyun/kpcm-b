@@ -28,6 +28,7 @@
              , T1.PRGRM_PATH
              , T1.URL_ADDR
              , T1.USE_YN
+             , T1.LGN_ERR_NOCS
           FROM CM_MENU_B T1
          WHERE T1.USE_YN='Y'
            AND T1.MENU_ID IN (SELECT T3.MENU_ID FROM CM_AUTHRT_MENU_DSCTN_B T3 WHERE T3.AUTHRT_ID IN 
@@ -39,5 +40,4 @@
     START WITH T1.UP_MENU_ID IS NULL
     CONNECT BY PRIOR T1.MENU_ID = T1.UP_MENU_ID 
     </select>
-
 </mapper>

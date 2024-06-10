@@ -29,7 +29,10 @@ public class Cmsc01020000Vo extends Cmsc00000000Vo {
     private String bzmnSeCd           ;// 사업자구분코드
     private String userPswd           ;// 비밀번호
     private String authrtIdS          ;// 회원의 권한정보들
-    private String message            ;//화면에 메세지 전달
+    private String loginYn            ;// 로그인가능여부
+    private int    lgnerrNocs         ;// 로그인오류건수
+    private String rejTimeYn          ;// 로그인 가능시간 여부
+    private String message            ;// 화면에 메세지 전달
 
 
 }

@@ -13,7 +13,6 @@ import kp.cmsc.common.exception.KnwpException;
 import kp.cmsc.common.parameters.GlobalVariables;
 import kp.cmsc.common.parameters.JedisConnectSetParameter;
 import kp.cmsc.common.parameters.ReturnParam;
-import kp.cmsc.common.util.MessageUtil;
 import kp.cmsc.common.util.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
 @Service
@@ -24,8 +23,7 @@ public class Cmsc01020000SvcImpl implements Cmsc01020000Svc {
     @Autowired
     KnwpProperties knwpProperties;
     /**
-     * @Discription 1. 개요 메소드에 대한 간단한 개요 기능등을 기술한다. 2. 주요처리로직 메소드에 대한 주요 처리 로직등을 기술
-     *              한다. 3. 예외처리 예외처리시 전처리 후처리등의 내용을 기술 한다.
+     * @Discription 1. 사용자의 로그인을 처리한다. 실폐 회수 5회 포함 인증 Hash 값 처리를 할수 있다.
      * @Author: 홍길동
      * @param : Cmsc01010000Vo vo
      * @Date : 2024-01-07.13
@@ -43,7 +41,14 @@ public class Cmsc01020000SvcImpl implements Cmsc01020000Svc {
           userSelectVo = Cmsc01020000Dao.select00(inPutVo);
           GlobalVariables.connectionHashCode = sHashCode;
           if(userSelectVo == null) {
-                throw new KnwpException(MessageUtil.getMessage("CMSC0002"));
+                return ReturnParam.pushErrorAction("CMSC0002");
+          }else if("N".equals(userSelectVo.getRejTimeYn())){//비밀번호 오류
+              return ReturnParam.pushErrorAction("CMSC0005",5);
+          }else if("N".equals(userSelectVo.getLoginYn())){//비밀번호 오류
+              int iErrorCnt = userSelectVo.getLgnerrNocs()+1;
+              userSelectVo.setLgnerrNocs(iErrorCnt+ 1);
+              Cmsc01020000Dao.update00(userSelectVo);
+              return ReturnParam.pushErrorAction("CMSC0005",iErrorCnt);
           }else {
               log.debug("======================getJedisPath==>>>:{}",knwpProperties.getJedisPath());
             JedisConnectSetParameter.setUserAuthInfo(knwpProperties,sHashCode, new StringBuffer()
@@ -53,6 +58,8 @@ public class Cmsc01020000SvcImpl implements Cmsc01020000Svc {
                 .append("&&")
                 .append(userSelectVo.getMbrNm())
                 .toString());
+            userSelectVo.setLgnerrNocs(0);
+            Cmsc01020000Dao.update00(userSelectVo);
           }
       } catch (KnwpException e) {
          log.error("=================error>>>:{}",e.toString());

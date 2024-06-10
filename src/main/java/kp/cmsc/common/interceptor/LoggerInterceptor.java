@@ -32,6 +32,9 @@ public class LoggerInterceptor implements HandlerInterceptor {
     @Autowired
     private RequestInputParamSetJdbc requestInputParamSetJdbc;
 
+    @Autowired
+    private RequestIpReject requestIpReject;
+
     private final ObjectMapper objectMapper;
 
     public LoggerInterceptor(ObjectMapper objectMapper) {
@@ -50,12 +53,41 @@ public class LoggerInterceptor implements HandlerInterceptor {
         if (!(response instanceof ContentCachingResponseWrapper)) {
             response = new ContentCachingResponseWrapper(response);
         }
+
+        String ipAddr = getLocalAddress().toString().replace("/", "");
+        log.info("==================ipAddr==>>>",ipAddr);
+//      String ipAddr =  LocalIpAddressUtil.getClientIP(cachingRequest);
+      boolean ipRejectFlg = requestIpReject.selecdtRequestIpReject(ipAddr);
+      log.info("==================preHandle==============ipRejectFlg>>>:{}",ipRejectFlg);
+      if(ipRejectFlg) {
+          //response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
+//          Map<String, String> dataMap = (Map<String, String>) request.getAttribute("dataMap");
+//          log.info("=====================dataMap>>:{}",dataMap);
+//          request.setAttribute("dataMap", ReturnParam.pushErrorAction("CMSC0003"));
+//          request.setAttribute("errCode"   , "CMSC0003");
+//          request.setAttribute("errMessage", "시스템 접근권한이 없습니다.!");
+          response.getWriter().write("Access Denied"); // Write some response to the client
+          response.setStatus(HttpServletResponse.SC_FORBIDDEN); // Set appropriate status code
+
+
+          return false;
+      }
         return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
             ModelAndView modelAndView) throws Exception {
+        //log.info("======================request{}"+request.getAttributeNames());
+
+        // 요청 객체에 설정된 모든 속성의 이름을 열거
+//        Enumeration<String> attributeNames = request.getAttributeNames();
+//        while (attributeNames.hasMoreElements()) {
+//            String attributeName = attributeNames.nextElement();
+//            Object attributeValue = request.getAttribute(attributeName);
+//            System.out.println("Attribute Name: " + attributeName + ", Value: " + attributeValue);
+//        }
+
         log.info("Response Status: {}", response.getStatus());
 
 
@@ -77,7 +109,8 @@ public class LoggerInterceptor implements HandlerInterceptor {
             //byte[] requestBody = cachingRequest.getContentAsByteArray();
             String ipAddr = getLocalAddress().toString().replace("/", "");
 //            String ipAddr =  LocalIpAddressUtil.getClientIP(cachingRequest);
-
+            boolean ipRejectFlg = requestIpReject.selecdtRequestIpReject(ipAddr);
+log.info("==================afterCompletion==============ipRejectFlg>>>:{}",ipRejectFlg);
             String reqURL = cachingRequest.getRequestURL().toString();
             int resStatus = response.getStatus();
             String macAddr = macAddressGetNetwork();
@@ -170,7 +203,7 @@ public class LoggerInterceptor implements HandlerInterceptor {
             byte[] mac = networkInterface.getHardwareAddress();
 
             if (mac != null) {
-                System.out.print("Interface: " + networkInterface.getDisplayName() + " - MAC Address: ");
+                log.info("Interface: " + networkInterface.getDisplayName() + " - MAC Address: ");
 
                 // MAC 주소를 16진수 문자열로 변환하여 출력
                 StringBuilder macAddress = new StringBuilder();

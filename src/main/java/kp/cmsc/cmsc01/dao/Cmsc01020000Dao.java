@@ -21,4 +21,5 @@ import kp.cmsc.cmsc01.vo.Cmsc01020000Vo;
 @Mapper
 public interface Cmsc01020000Dao {
     public Cmsc01020000Vo select00(Cmsc01020000Vo vo) throws Exception;
+    public int update00(Cmsc01020000Vo vo) throws Exception;
 }
