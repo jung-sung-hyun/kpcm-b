@@ -54,10 +54,10 @@ public class Cmsc01030000SvcImpl implements Cmsc01030000Svc {
                 outputVo = cmsc01030000Dao.selectList00(inputVo,list);
                 log.info("=====================generateCustomKey()>:{}",StringUtil.generateCustomKey());
             }else {
-                return ReturnParam.pushErrorAction("CMSC0003");
+                return ReturnParam.pushErrorAction("SYS.CM.0003");
             }
         } catch (KnwpException e) {
-            return ReturnParam.pushErrorAction("CMSC0002");
+            return ReturnParam.pushErrorAction("ERR.CM.0002");
         }
         return ReturnParam.pushParamAction(inputVo, outputVo);
     }

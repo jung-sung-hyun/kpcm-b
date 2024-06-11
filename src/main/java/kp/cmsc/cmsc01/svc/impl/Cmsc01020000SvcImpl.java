@@ -41,14 +41,14 @@ public class Cmsc01020000SvcImpl implements Cmsc01020000Svc {
           userSelectVo = Cmsc01020000Dao.select00(inputVo);
           GlobalVariables.connectionHashCode = sHashCode;
           if(userSelectVo == null) {
-                return ReturnParam.pushErrorAction("CMSC0002");
+                return ReturnParam.pushErrorAction("ERR.CM.0002");
           }else if("N".equals(userSelectVo.getRejTimeYn())){//비밀번호 오류
-              return ReturnParam.pushErrorAction("CMSC0005",5);
+              return ReturnParam.pushErrorAction("ERR.CM.0005",5);
           }else if("N".equals(userSelectVo.getLoginYn())){//비밀번호 오류
               int iErrorCnt = userSelectVo.getLgnerrNocs()+1;
               userSelectVo.setLgnerrNocs(iErrorCnt+ 1);
               Cmsc01020000Dao.update00(userSelectVo);
-              return ReturnParam.pushErrorAction("CMSC0005",iErrorCnt);
+              return ReturnParam.pushErrorAction("ERR.CM.0005",iErrorCnt);
           }else {
               log.debug("======================getJedisPath==>>>:{}",knwpProperties.getJedisPath());
             JedisConnectSetParameter.setUserAuthInfo(knwpProperties,sHashCode, new StringBuffer()
@@ -63,7 +63,7 @@ public class Cmsc01020000SvcImpl implements Cmsc01020000Svc {
           }
       } catch (KnwpException e) {
          log.error("=================error>>>:{}",e.toString());
-         return ReturnParam.pushErrorAction("CMSC0002");
+         return ReturnParam.pushErrorAction("ERR.CM.0002");
       }
       log.debug("==========================>>return parameter+===:::{}",ReturnParam.pushParamAction(inputVo, userSelectVo));
       return ReturnParam.pushParamAction(inputVo, userSelectVo);
