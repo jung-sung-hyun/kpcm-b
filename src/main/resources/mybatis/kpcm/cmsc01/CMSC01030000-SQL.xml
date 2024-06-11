@@ -13,7 +13,7 @@
     1. 2024.06.01/ 정성현/ 최초작성
     =======================================================
     -->
-    <select id="selectList00" parameterType="cmsc01030000Vo" resultType="cmsc01030000Vo">
+   <select id="selectList00" parameterType="cmsc01030000Vo" resultType="cmsc01030000Vo">
         /*Cmsc01030000Dao.selectMenuList[메뉴리스트조회]*/
         SELECT LPAD(' ', 2*(LEVEL-1)) || MENU_NM MENU_NMS
              ,(LEVEL-1) AS LEVELS
@@ -30,13 +30,13 @@
              , T1.USE_YN
           FROM CM_MENU_B T1
          WHERE T1.USE_YN='Y'
-           AND T1.MENU_ID IN (SELECT T3.MENU_ID FROM CM_AUTHRT_MENU_DSCTN_B T3 WHERE T3.AUTHRT_ID IN 
-	           <foreach item="id" collection="idList" open="(" separator="," close=")">
-	               #{id}
-	           </foreach>
+           AND T1.MENU_ID IN (SELECT T3.MENU_ID FROM CM_AUTHRT_MENU_DSCTN_B T3 WHERE T3.AUTHRT_ID IN
+               <foreach item="id" collection="idList" open="(" separator="," close=")">
+                   #{id}
+               </foreach>
            )
            AND T1.MENU_LVL > 0
     START WITH T1.UP_MENU_ID IS NULL
     CONNECT BY PRIOR T1.MENU_ID = T1.UP_MENU_ID 
-    </select>
+    </select>    
 </mapper>

@@ -47,12 +47,25 @@ public class JedisConnectSetParameter {
         }
         jedis.close();
     }
+    public static void deleteUserAuthInfo(KnwpProperties knwpProperties,String hashCode) throws Exception {
+
+        Jedis jedis = new Jedis(knwpProperties.getJedisPath(), knwpProperties.getJedisPort()); // Redis 서버의 호스트와 포트를 지정
+        // 기본적인 연결 테스트
+        String jedisPong = jedis.ping();
+        log.info("Response from Redis: :==============debugdebug====={}",jedisPong);
+        if("PONG".equals(jedisPong)) {
+            // 데이터 삭제
+            jedis.del(hashCode);
+        }
+        jedis.close();
+    }
+
     public static String getUserAuthInfo(KnwpProperties knwpProperties,String hashCode) throws Exception {
         Jedis jedis = new Jedis(knwpProperties.getJedisPath(), knwpProperties.getJedisPort()); // Redis 서버의 호스트와 포트를 지정
         // 기본적인 연결 테스트
         String jedisPong = jedis.ping();
+        log.info("==========================jedisPong>>>:{}",jedisPong);
         if("PONG".equals(jedisPong)) {
-log.info("==========================jedisPong>>>:{}",jedisPong);
             String sUuserInfo = jedis.get(hashCode);
             jedis.close();
             return sUuserInfo;
