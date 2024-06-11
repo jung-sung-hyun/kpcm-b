@@ -61,6 +61,4 @@ public class Cmsc01030000SvcImpl implements Cmsc01030000Svc {
         }
         return ReturnParam.pushParamAction(inputVo, outputVo);
     }
-
-
 }

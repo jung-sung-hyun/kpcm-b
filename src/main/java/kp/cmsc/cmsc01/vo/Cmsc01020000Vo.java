@@ -32,6 +32,7 @@ public class Cmsc01020000Vo extends Cmsc00000000Vo {
     private String loginYn            ;// 로그인가능여부
     private int    lgnerrNocs         ;// 로그인오류건수
     private String rejTimeYn          ;// 로그인 가능시간 여부
+    private String connectHash        ;// connect hash code
     private String message            ;// 화면에 메세지 전달
 
 

@@ -34,4 +34,18 @@ public class Cmsc01020000Ctr {
     public ResponseEntity<?>  select00(@RequestBody Cmsc01020000Vo inputVo) throws Exception {
         return ResponseEntity.ok(cmsc01020000Svc.select00(inputVo));
     }
+    /**
+     * @Discription 1. 사용자 인증정보를 삭제한다.
+     * @Author: 정성현
+     * @param : Cmsc01020000Vo vo
+     * @Date : 2024-07-07
+     * @return: ModelAndView
+     * @throws Exception
+     */
+    @SuppressWarnings("resource")
+    @ResponseBody
+    @RequestMapping(value = "/delete00", method = RequestMethod.POST)
+    public ResponseEntity<?>  delete00(@RequestBody Cmsc01020000Vo inputVo) throws Exception {
+        return ResponseEntity.ok(cmsc01020000Svc.delete00(inputVo));
+    }
 }

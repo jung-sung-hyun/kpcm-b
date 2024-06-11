@@ -31,14 +31,14 @@ public class Cmsc01020000SvcImpl implements Cmsc01020000Svc {
      * @throws Exception
      */
     @Override
-    public Map<String, Object> select00(Cmsc01020000Vo inPutVo) throws Exception{
+    public Map<String, Object> select00(Cmsc01020000Vo inputVo) throws Exception{
       Cmsc01020000Vo userSelectVo = new Cmsc01020000Vo();
 
       try {
-        String sHashCode = SecurityUtil.encryptToBase64(inPutVo.getMbrEmlAddr(), "SHA3-512");
-        String sPwd = SecurityUtil.encryptToBase64(inPutVo.getUserPswd(), "SHA3-512");
-        inPutVo.setUserPswd(sPwd);
-          userSelectVo = Cmsc01020000Dao.select00(inPutVo);
+        String sHashCode = SecurityUtil.encryptToBase64(inputVo.getMbrEmlAddr(), "SHA3-512");
+        String sPwd = SecurityUtil.encryptToBase64(inputVo.getUserPswd(), "SHA3-512");
+        inputVo.setUserPswd(sPwd);
+          userSelectVo = Cmsc01020000Dao.select00(inputVo);
           GlobalVariables.connectionHashCode = sHashCode;
           if(userSelectVo == null) {
                 return ReturnParam.pushErrorAction("CMSC0002");
@@ -65,9 +65,24 @@ public class Cmsc01020000SvcImpl implements Cmsc01020000Svc {
          log.error("=================error>>>:{}",e.toString());
          return ReturnParam.pushErrorAction("CMSC0002");
       }
-      log.debug("==========================>>return parameter+===:::{}",ReturnParam.pushParamAction(inPutVo, userSelectVo));
-      return ReturnParam.pushParamAction(inPutVo, userSelectVo);
+      log.debug("==========================>>return parameter+===:::{}",ReturnParam.pushParamAction(inputVo, userSelectVo));
+      return ReturnParam.pushParamAction(inputVo, userSelectVo);
 
+    }
+
+    /**
+     * @Discription 1. 사용자의 로그인을 처리한다. 실폐 회수 5회 포함 인증 Hash 값 처리를 할수 있다.
+     * @Author: 홍길동
+     * @param : Cmsc01010000Vo vo
+     * @Date : 2024-01-07.13
+     * @return: ModelAndView
+     * @throws Exception
+     */
+    @Override
+    public Map<String, Object> delete00(Cmsc01020000Vo inputVo) throws Exception{
+        JedisConnectSetParameter.deleteUserAuthInfo(knwpProperties,inputVo.getConnectHash());
+        Cmsc01020000Vo userSelectVo = new Cmsc01020000Vo();
+        return ReturnParam.pushParamAction(inputVo, userSelectVo);
     }
 
 
