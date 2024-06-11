@@ -16,7 +16,7 @@
     =======================================================
     -->    
     <insert id="insert00" parameterType="cmsc01010001VO">
-        /*Cmsc01010001Dao.insertBoard[게시판 등록]*/
+        /*Cmsc01010001Dao.insert00[게시판 등록]*/
         INSERT INTO TB_BOARD
         (
              IDX

@@ -25,15 +25,14 @@ public class Cmsc01020000SvcImpl implements Cmsc01020000Svc {
     /**
      * @Discription 1. 사용자의 로그인을 처리한다. 실폐 회수 5회 포함 인증 Hash 값 처리를 할수 있다.
      * @Author: 홍길동
-     * @param : Cmsc01010000Vo vo
+     * @param : Cmsc01010000Vo inputVo
      * @Date : 2024-01-07.13
-     * @return: ModelAndView
+     * @return: Map<String, Object>
      * @throws Exception
      */
     @Override
     public Map<String, Object> select00(Cmsc01020000Vo inputVo) throws Exception{
       Cmsc01020000Vo userSelectVo = new Cmsc01020000Vo();
-
       try {
         String sHashCode = SecurityUtil.encryptToBase64(inputVo.getMbrEmlAddr(), "SHA3-512");
         String sPwd = SecurityUtil.encryptToBase64(inputVo.getUserPswd(), "SHA3-512");
@@ -50,7 +49,6 @@ public class Cmsc01020000SvcImpl implements Cmsc01020000Svc {
               Cmsc01020000Dao.update00(userSelectVo);
               return ReturnParam.pushErrorAction("ERR.CM.0005",iErrorCnt);
           }else {
-              log.debug("======================getJedisPath==>>>:{}",knwpProperties.getJedisPath());
             JedisConnectSetParameter.setUserAuthInfo(knwpProperties,sHashCode, new StringBuffer()
                 .append(userSelectVo.getAuthrtIdS())
                 .append("&&")
@@ -62,10 +60,8 @@ public class Cmsc01020000SvcImpl implements Cmsc01020000Svc {
             Cmsc01020000Dao.update00(userSelectVo);
           }
       } catch (KnwpException e) {
-         log.error("=================error>>>:{}",e.toString());
          return ReturnParam.pushErrorAction("ERR.CM.0002");
       }
-      log.debug("==========================>>return parameter+===:::{}",ReturnParam.pushParamAction(inputVo, userSelectVo));
       return ReturnParam.pushParamAction(inputVo, userSelectVo);
 
     }

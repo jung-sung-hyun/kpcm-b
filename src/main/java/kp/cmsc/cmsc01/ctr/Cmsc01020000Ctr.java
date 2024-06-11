@@ -25,7 +25,7 @@ public class Cmsc01020000Ctr {
      * @Author: 정성현
      * @param : Cmsc01020000Vo vo
      * @Date : 2024-07-07
-     * @return: ModelAndView
+     * @return: ResponseEntity
      * @throws Exception
      */
     @SuppressWarnings("resource")
