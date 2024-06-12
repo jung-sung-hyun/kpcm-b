@@ -2,17 +2,30 @@ package kp.cmsc.cmsc01.vo;
 
 import org.apache.ibatis.type.Alias;
 
-import kp.cmsc.cmsc00.vo.Cmsc00000000Vo;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
 @Alias(value = "cmsc01020000Vo")
-public class Cmsc01020000Vo extends Cmsc00000000Vo {
-   // 회원정보
+public class Cmsc01020000Vo {
     private String mbrId              ;// 회원아이디
+
+    @Schema(description = "회원명")
+    @NotNull(message = "........")
     private String mbrNm              ;// 회원명
     private String mblTelno           ;// 휴대전화번호
+    // 회원정보
+    @NotNull(message = "Name cannot be null")
+    @Size(min = 2, message = "Name not be less than two characters")
+    @Schema(description = "회원아이디", nullable = false, example = "ssjung99@gmail.com")
     private String mbrEmlAddr         ;// 회원이메일주소
+    // 회원정보
+    @NotNull(message = "Name cannot be null")
+    @Size(min = 2, message = "Name not be less than two characters")
+    @Schema(description = "비밀번호", nullable = false)
+    private String userPswd           ;// 비밀번호
     private String ciVl               ;// CI값
     private String joinDt             ;// 가입일시
     private String mbrSttsCd          ;// 회원상태코드
@@ -27,7 +40,6 @@ public class Cmsc01020000Vo extends Cmsc00000000Vo {
     private String mdfcnDt            ;// 수정일시
     private String mdfrIpAddr         ;// 수정자IP주소
     private String bzmnSeCd           ;// 사업자구분코드
-    private String userPswd           ;// 비밀번호
     private String authrtIdS          ;// 회원의 권한정보들
     private String loginYn            ;// 로그인가능여부
     private int    lgnerrNocs         ;// 로그인오류건수

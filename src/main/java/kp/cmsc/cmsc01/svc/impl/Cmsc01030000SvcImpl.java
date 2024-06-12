@@ -15,7 +15,6 @@ import kp.cmsc.common.exception.KnwpException;
 import kp.cmsc.common.parameters.JedisConnectSetParameter;
 import kp.cmsc.common.parameters.ReturnParam;
 import kp.cmsc.common.util.JsonUtil;
-import kp.cmsc.common.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -36,8 +35,6 @@ public class Cmsc01030000SvcImpl implements Cmsc01030000Svc {
     @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object>  selectList00(Cmsc01030000Vo inputVo) throws Exception {
-
-        log.info("=====================inputVo.getConnectHash()>:{}",inputVo.getConnectHash());
         String userInfo = JedisConnectSetParameter.getUserAuthInfo(knwpProperties,inputVo.getConnectHash());
         log.debug(userInfo);
         List<Cmsc01030000Vo> outputVo = new ArrayList<Cmsc01030000Vo>();
@@ -48,11 +45,9 @@ public class Cmsc01030000SvcImpl implements Cmsc01030000Svc {
                 if(aUserInfo.length > 0) {
                     log.debug(aUserInfo[0]);
                     String[] sAuthCd = aUserInfo[0].split(",");
-        //            List<HashMap<String, Object>> list = aUserInfo[0].split(",");
                     list = (List<String>)JsonUtil.getInstance().convertMapToObject(sAuthCd, list);
                 }
                 outputVo = cmsc01030000Dao.selectList00(inputVo,list);
-                log.info("=====================generateCustomKey()>:{}",StringUtil.generateCustomKey());
             }else {
                 return ReturnParam.pushErrorAction("SYS.CM.0003");
             }

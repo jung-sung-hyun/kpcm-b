@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
 /**
  * @Project : 차세대 지급결제플랫폼구축사업
  * @Class : Cmsc00000000Ctr

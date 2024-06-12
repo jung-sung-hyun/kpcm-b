@@ -20,6 +20,10 @@ public class ReturnParam {
 //    bizCode:
 //    bizMessage:
 //    connectHash:
+//    pageTot:
+//    currentPage:
+//    totCnt :
+
 
     /**
      *  화면에 전달 되는 파라미터의 정의 화면에서 해당 파라미터로 전달 받아 처리함.

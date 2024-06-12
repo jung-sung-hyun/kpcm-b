@@ -1,31 +1,22 @@
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//
-//import springfox.documentation.builders.ApiInfoBuilder;
-//import springfox.documentation.builders.PathSelectors;
-//import springfox.documentation.builders.RequestHandlerSelectors;
-//import springfox.documentation.service.ApiInfo;
-//import springfox.documentation.spi.DocumentationType;
-//import springfox.documentation.spring.web.plugins.Docket;
-//
-//// http://localhost:port/swagger-ui/
-//@Configuration
-//public class SwaggerConfig {
-//    @Bean
-//    public Docket api(){
-//        return new Docket(DocumentationType.OAS_30)
-//                .apiInfo(apiInfo())
-//                .select()
-//                .apis(RequestHandlerSelectors.any())
-//                .paths(PathSelectors.any())
-//                .build();
-//    }
-//
-//    private ApiInfo apiInfo(){
-//        return new ApiInfoBuilder()
-//                .title("test")
-//                .description("description")
-//                .version("1.0.0")
-//                .build();
-//    }
-//}
+package kp.cmsc.common.config;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.models.OpenAPI;
+import lombok.RequiredArgsConstructor;
+@OpenAPIDefinition(
+        info = @Info(title = "User-Service API 명세서",
+                description = "파일럿을 위한 사용자 샘플 서비스 API 명세서",
+                version = "v1"))
+@RequiredArgsConstructor
+@Configuration
+public class SwaggerConfig {
+    @Bean
+    OpenAPI openAPI() {
+        return new OpenAPI()
+        ;
+    }
+
+}

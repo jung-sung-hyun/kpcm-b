@@ -5,6 +5,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import kp.cmsc.cmsc01.dao.Cmsc01020000Dao;
 import kp.cmsc.cmsc01.svc.Cmsc01020000Svc;
 import kp.cmsc.cmsc01.vo.Cmsc01020000Vo;
@@ -30,6 +32,10 @@ public class Cmsc01020000SvcImpl implements Cmsc01020000Svc {
      * @return: Map<String, Object>
      * @throws Exception
      */
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - KnwpException")
+        })
+
     @Override
     public Map<String, Object> select00(Cmsc01020000Vo inputVo) throws Exception{
       Cmsc01020000Vo userSelectVo = new Cmsc01020000Vo();
@@ -61,6 +67,7 @@ public class Cmsc01020000SvcImpl implements Cmsc01020000Svc {
           }
       } catch (KnwpException e) {
          return ReturnParam.pushErrorAction("ERR.CM.0002");
+        //   throw new KnwpException("dddddddddddddddddddddd");
       }
       return ReturnParam.pushParamAction(inputVo, userSelectVo);
 
