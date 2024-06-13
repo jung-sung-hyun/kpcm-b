@@ -18,7 +18,12 @@ import jakarta.annotation.Resource;
 import kp.cmsc.cmsc01.svc.Cmsc01020000Svc;
 import kp.cmsc.cmsc01.vo.Cmsc01020000Vo;
 import lombok.extern.slf4j.Slf4j;
-@Tag(name = "Cmsc01020000Ctr", description = "사용자의 로그인정보르 관리한다.")
+
+@Tag(
+    name        = "관리자 로그인[Cmsc01020000Ctr]",
+    description = "설명: 사용자의 로그인정보를 관리한다.<br>"
+                + "로그인된 관리자에 대해 인증정보를 생성하고 인증정보를 반환한다."
+)
 @RestController
 @WebAppConfiguration
 @RequestMapping("/cm/cmsc01020000")
@@ -27,58 +32,49 @@ public class Cmsc01020000Ctr {
 
     @Resource
     private Cmsc01020000Svc cmsc01020000Svc;
-    /**
-     * @Discription 1. 사용자 로그인을 처리한다.
-     * @Author: 정성현
-     * @param : Cmsc01020000Vo vo
-     * @Date : 2024-07-07
-     * @return: ResponseEntity
-     * @throws Exception
-     */
     @Operation(
             summary = "사용자 로그인",
             description = "사용자 로그인을 처리한다.",
-            parameters = {
-                    @Parameter(name= "swagConnect",description= "swagger 접속여부플레그",example = "Y"),
-                    @Parameter(name= "mbrEmlAddr",description= "회원이메일주소", required = true),
-                    @Parameter(name= "userPswd"      ,description= "비밀번호", required = true  )
+             parameters = {
+                @Parameter(name= "mbrEmlAddr", description= "회원이메일주소-IN" , hidden= true,required = true),
+                @Parameter(name= "userPswd"  , description= "비밀번호-IN"       , hidden= true,required = true)
+             },
+            responses = {
+                @ApiResponse(responseCode = "ERR.CM.0002", description = "사용자정보가 잘못 되었습니다.                                    "),
+                @ApiResponse(responseCode = "ERR.CM.0005", description = "로그인횟수 %d회 실폐했습니다. 5회이상 실패시 로그인이 제한됩니다."),
+                @ApiResponse(responseCode = "200"        , description = "요청이 성공적으로 처리되었습니다.                                "),
+                @ApiResponse(responseCode = "201"        , description = "요청이 성공적으로 처리되어 새로운 리소스가 생성되었습니다.       "),
+                @ApiResponse(responseCode = "400"        , description = "잘못된 요청입니다. 요청 형식을 확인해주세요.                     "),
+                @ApiResponse(responseCode = "401"        , description = "인증되지 않은 요청입니다. 로그인이 필요합니다.                   "),
+                @ApiResponse(responseCode = "403"        , description = "접근이 거부되었습니다. 접근 권한을 확인해주세요."                 ),
+                @ApiResponse(responseCode = "404"        , description = "요청한 리소스를 찾을 수 없습니다.                                "),
+                @ApiResponse(responseCode = "500"        , description = "서버 내부 오류가 발생했습니다. 서버 관리자에게 문의하세요.       ")
             }
      )
     @ResponseBody
     @PostMapping(value = "/select00")
-    //ResponseEntity<UserPageRes>
-        public Map<String, Object> select00(  @RequestBody Cmsc01020000Vo inputVo, @ParameterObject Cmsc01020000Vo  inputParamVo) throws Exception{
-        // public Map<String, Object> select00(@RequestBody  Cmsc01020000Vo inputVo) throws Exception{
-            //        public Map<String, Object> select00(@ParameterObject Cmsc01020000Vo inputVo) throws Exception{
-    //public Map<String, Object> select00(@RequestBody @ParameterObject Map<String, Object> inputVo) throws Exception{
-//        if(inputParamVo != null) {
-//            inputVo = inputParamVo;
-//        }
-       //log.info("inputParamVo======================>> : {}", inputParamVo);
-       log.info("inputVo======================>> : {}", inputVo);
-
-       return cmsc01020000Svc.select00(inputVo);
+    public Map<String, Object> select00( @RequestBody Cmsc01020000Vo  inputVo, @ParameterObject Cmsc01020000Vo swaggerParam  ) throws Exception{
+          return cmsc01020000Svc.select00(inputVo);
     }
-    /**
-     * @Discription 1. 사용자 인증정보를 삭제한다.
-     * @Author: 정성현
-     * @param : Cmsc01020000Vo vo
-     * @Date : 2024-07-07
-     * @return: ModelAndView
-     * @throws Exception
-     */
     @Operation(
             summary = "사용자 인증삭제",
-            description = "사용자 인증정보를 삭제한다.",
-            parameters = {},
+            description = "사용자 로그인시 취득한 인증정보를 삭제한다.",
+             parameters = {
+                @Parameter(name= "connectHash", description= "사용자인증키-IN" , hidden= true,required = true)
+             },
             responses = {
-                    @ApiResponse(responseCode = "200", description = "조회된 사용자 정보를 반환함.") ,
-                    @ApiResponse(responseCode = "401", description = "인증되지 않은 사용자는 권한없음을 반환함.")
+                @ApiResponse(responseCode = "200"        , description = "요청이 성공적으로 처리되었습니다.                                "),
+                @ApiResponse(responseCode = "201"        , description = "요청이 성공적으로 처리되어 새로운 리소스가 생성되었습니다.       "),
+                @ApiResponse(responseCode = "400"        , description = "잘못된 요청입니다. 요청 형식을 확인해주세요.                     "),
+                @ApiResponse(responseCode = "401"        , description = "인증되지 않은 요청입니다. 로그인이 필요합니다.                   "),
+                @ApiResponse(responseCode = "403"        , description = "접근이 거부되었습니다. 접근 권한을 확인해주세요."                 ),
+                @ApiResponse(responseCode = "404"        , description = "요청한 리소스를 찾을 수 없습니다.                                "),
+                @ApiResponse(responseCode = "500"        , description = "서버 내부 오류가 발생했습니다. 서버 관리자에게 문의하세요.       ")
             }
      )
     @ResponseBody
     @PostMapping(value = "/delete00")
-    public Map<String, Object>  delete00(@RequestBody Cmsc01020000Vo inputVo) throws Exception {
+    public Map<String, Object>  delete00(@RequestBody Cmsc01020000Vo inputVo, @ParameterObject Cmsc01020000Vo swaggerParam) throws Exception {
         return cmsc01020000Svc.delete00(inputVo);
     }
 }
