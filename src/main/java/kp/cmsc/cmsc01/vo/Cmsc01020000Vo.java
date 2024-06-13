@@ -4,28 +4,25 @@ import org.apache.ibatis.type.Alias;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 @Data
 @Alias(value = "cmsc01020000Vo")
 public class Cmsc01020000Vo {
     private String mbrId              ;// 회원아이디
-
-    @Schema(description = "회원명")
-    @NotNull(message = "........")
-    private String mbrNm              ;// 회원명
-    private String mblTelno           ;// 휴대전화번호
     // 회원정보
-    @NotNull(message = "Name cannot be null")
-    @Size(min = 2, message = "Name not be less than two characters")
-    @Schema(description = "회원아이디", nullable = false, example = "ssjung99@gmail.com")
+    @NotNull
+    @Positive
+    @Schema(description = "회원 ID(IN)")
     private String mbrEmlAddr         ;// 회원이메일주소
-    // 회원정보
-    @NotNull(message = "Name cannot be null")
-    @Size(min = 2, message = "Name not be less than two characters")
-    @Schema(description = "비밀번호", nullable = false)
+    @NotNull
+    @Positive
     private String userPswd           ;// 비밀번호
+    @Schema(description = "회원명 OUTPUT" )
+    private String mbrNm              ;// 회원명
+    @Schema(description = "휴대전화번호 OUTPUT" )
+    private String mblTelno           ;// 휴대전화번호
     private String ciVl               ;// CI값
     private String joinDt             ;// 가입일시
     private String mbrSttsCd          ;// 회원상태코드
@@ -46,6 +43,5 @@ public class Cmsc01020000Vo {
     private String rejTimeYn          ;// 로그인 가능시간 여부
     private String connectHash        ;// connect hash code
     private String message            ;// 화면에 메세지 전달
-
 
 }

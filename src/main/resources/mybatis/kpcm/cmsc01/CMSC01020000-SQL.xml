@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kp.cmsc.cmsc01.dao.Cmsc01020000Dao">
-    
-    <!-- 
+
+    <!--
        - SQL  명  : 사용자 조회
        - 작 성 자 : 정성현
        - 작 성 일 : 2024-05-13
@@ -26,10 +26,10 @@
              , T1.LGN_ERR_NOCS
              , CASE WHEN NVL(T1.LGN_LMT_HR,sysdate) <= sysdate AND T1.LGN_ERR_NOCS < 5 THEN 'Y' ELSE 'N' END AS REJ_TIME_YN
           FROM MB_MBR_B T1
-     LEFT JOIN CM_MBR_AUTHRT_B T2 ON ,
+     LEFT JOIN CM_MBR_AUTHRT_B T2 ON
                T1.MBR_ID = T2.MBR_ID
          WHERE T1.MBR_EML_ADDR = #{mbrEmlAddr}
-           AND T1.USE_YN       = 'Y' 
+           AND T1.USE_YN       = 'Y'
       GROUP BY T1.MBR_ID
              , T1.MBR_NM
              , T1.MBR_EML_ADDR
@@ -38,7 +38,7 @@
              , T1.LGN_LMT_HR
     ]]>
     </select>
-    <!-- 
+    <!--
        - SQL  명  : 로그인 실폐회수 업데이트
        - 작 성 자 : 정성현
        - 작 성 일 : 2024-06-07
@@ -48,7 +48,7 @@
     =================수정일자/요청자/내용 =================
     1. 2024.06.07/ 정성현/ 최초작성
     =======================================================
-    -->    
+    -->
     <update id="update00" parameterType="cmsc01020000Vo">
     /*Cmsc01020000Dao.update00 [로그인 실폐회수 ]*/
     <![CDATA[

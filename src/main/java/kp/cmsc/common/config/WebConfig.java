@@ -13,8 +13,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")//특정메소드 호출
-                //.allowedOriginPatterns("http://localhost:3000")
-                .allowedOriginPatterns("/**")
+                .allowedOriginPatterns("http://localhost:3000")
+//                .allowedOriginPatterns("/**")
                 .allowedMethods("GET", "POST")
                 .allowCredentials(false);//원하는 시간만큼 pre-flight 리퀘스트를 캐싱
     }
