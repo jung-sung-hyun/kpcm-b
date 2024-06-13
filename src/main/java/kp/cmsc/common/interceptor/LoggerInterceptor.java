@@ -59,6 +59,8 @@ public class LoggerInterceptor implements HandlerInterceptor {
 //      String ipAddr =  LocalIpAddressUtil.getClientIP(cachingRequest);
       boolean ipRejectFlg = requestIpReject.selecdtRequestIpReject(ipAddr);
       log.info("==================preHandle==============ipRejectFlg>>>:{}",ipRejectFlg);
+      // TODO - ip 접근제어 일시 허용 추후 적용해야함
+      /*
       if(ipRejectFlg) {
           //response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
 //          Map<String, String> dataMap = (Map<String, String>) request.getAttribute("dataMap");
@@ -71,7 +73,7 @@ public class LoggerInterceptor implements HandlerInterceptor {
 
 
           return false;
-      }
+       */
         return true;
     }
 
