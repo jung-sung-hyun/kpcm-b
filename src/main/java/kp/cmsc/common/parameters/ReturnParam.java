@@ -78,6 +78,33 @@ public class ReturnParam {
      * throws Exception
      * @author : jung sung hyun
      */
+    public static Map<String, Object>  pushParamAction(Object inputObj) throws Exception{
+        Map<String, Object> returnParam = new HashMap<>();
+        returnParam.put("param"     , inputObj);
+        returnParam.put("paramS"    , null);
+        returnParam.put("dateSingle", null);
+        returnParam.put("dataList"  , null);
+        returnParam.put("bizCode"   , null);
+        returnParam.put("bizMessage", null);
+        returnParam.put("connectHash", GlobalVariables.connectionHashCode);
+        returnParam.put("errCode", null);
+        returnParam.put("errMessage", null);
+        return returnParam;
+    }
+
+    /**
+     *  화면에 전달 되는 파라미터의 정의 화면에서 해당 파라미터로 전달 받아 처리함.
+     * @param inputObj
+     *  param     : 화면에서 전달된 single 형태의 파라미터
+     *  paramS    : 화면에 List로 전달된 파라미터
+     * @param outputObj
+     * @return
+     *  dateSingle: 화면으로 전달될 single 형 파리미터
+     *  dataList  : 화면에 전달되는 리스트 형태의 파라미터
+     *  connectHash: 화몀으로 전달되는 connection Hans code
+     * throws Exception
+     * @author : jung sung hyun
+     */
     public static Map<String, Object>  pushParamAction(Object inputObj, Object outputObj) throws Exception{
         Map<String, Object> returnParam = new HashMap<>();
         if (inputObj  instanceof List) {

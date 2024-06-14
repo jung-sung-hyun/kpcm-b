@@ -24,5 +24,5 @@ import kp.cmsc.cmsc01.vo.Cmsc01010000Vo;
 @Repository
 @Mapper
 public interface Cmsc01010000Dao {
-    public List<Cmsc01010000Vo> selectList00() throws Exception;
+    public List<Cmsc01010000Vo> selectList00(Cmsc01010000Vo inputVo) throws Exception;
 }

@@ -6,7 +6,7 @@ package kp.cmsc.cmsc01.dao;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import kp.cmsc.cmsc01.vo.Cmsc01010000Vo;
+import kp.cmsc.cmsc01.vo.Cmsc01010001Vo;
 
 
 
@@ -22,5 +22,5 @@ import kp.cmsc.cmsc01.vo.Cmsc01010000Vo;
 @Repository
 @Mapper
 public interface Cmsc01010001Dao {
-    public void insert00(Cmsc01010000Vo vo) throws Exception;
+    public void insert00(Cmsc01010001Vo vo) throws Exception;
 }

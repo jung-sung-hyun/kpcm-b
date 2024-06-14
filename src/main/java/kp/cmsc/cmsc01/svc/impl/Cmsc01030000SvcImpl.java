@@ -32,27 +32,25 @@ public class Cmsc01030000SvcImpl implements Cmsc01030000Svc {
      * @Date : 2024-01-07.13
      * @throws Exception
      */
-    @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object>  selectList00(Cmsc01030000Vo inputVo) throws Exception {
-        //String userInfo = JedisConnectSetParameter.getUserAuthInfo(knwpProperties,inputVo.getConnectHash());
-        //log.debug(userInfo);
+        String userInfo = JedisConnectSetParameter.getUserAuthInfo(knwpProperties,inputVo.getConnectHash());
+        log.debug(userInfo);
         List<Cmsc01030000Vo> outputVo = new ArrayList<Cmsc01030000Vo>();
         try {
             outputVo = cmsc01030000Dao.selectList00(inputVo,null);
-//            // TODO - redis 적용 했으나, hashcode 문제생겨 추후 적용예정
-//            if(userInfo != null) {
-//                String[] aUserInfo = userInfo.split("&&");
-//                List<String> list = new ArrayList<>();
-//                if(aUserInfo.length > 0) {
-//                    log.debug(aUserInfo[0]);
-//                    String[] sAuthCd = aUserInfo[0].split(",");
-//                    list = (List<String>)JsonUtil.getInstance().convertMapToObject(sAuthCd, list);
-//                }
-//                outputVo = cmsc01030000Dao.selectList00(inputVo,list);
-//            }else {
-//                return ReturnParam.pushErrorAction("SYS.CM.0003");
-//            }
+           if(userInfo != null) {
+               String[] aUserInfo = userInfo.split("&&");
+               List<String> list = new ArrayList<>();
+               if(aUserInfo.length > 0) {
+                   log.debug(aUserInfo[0]);
+                   String[] sAuthCd = aUserInfo[0].split(",");
+                   list = (List<String>)JsonUtil.getInstance().convertMapToObject(sAuthCd, list);
+               }
+               outputVo = cmsc01030000Dao.selectList00(inputVo,list);
+           }else {
+               return ReturnParam.pushErrorAction("SYS.CM.0003");
+           }
         } catch (KnwpException e) {
             return ReturnParam.pushErrorAction("ERR.CM.0002");
         }

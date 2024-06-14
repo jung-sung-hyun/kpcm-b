@@ -1,6 +1,8 @@
 package kp.cmsc.cmsc01.svc;
 
-import kp.cmsc.cmsc01.vo.Cmsc01010000Vo;
+import java.util.Map;
+
+import kp.cmsc.cmsc01.vo.Cmsc01010001Vo;
 /**
  * @Project : 차세대 지급결제플랫폼구축사업
  * @Class : Cmsc01010000Dao
@@ -11,5 +13,5 @@ import kp.cmsc.cmsc01.vo.Cmsc01010000Vo;
  * @Version : 0.1
  */
 public interface Cmsc01010001Svc {
-    public void insert00(Cmsc01010000Vo vo) throws Exception;
+    public Map<String, Object> insert00(Cmsc01010001Vo inputVo) throws Exception ;
 }
