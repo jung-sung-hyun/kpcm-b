@@ -2,7 +2,13 @@ package kp.cmsc.cmsc98.ctr;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import kp.cmsc.cmsc01.vo.Cmsc01020000Vo;
+import lombok.extern.slf4j.Slf4j;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,53 +25,87 @@ import kp.cmsc.cmsc98.vo.Cmsc98010000Vo;
 import kp.cmsc.common.config.KnwpProperties;
 /**
  * @Project    : 차세대 지급결제플랫폼구축사업
- * @Class      : Cm0101Ctr
+ * @Class      : Cm9801Ctr
  * @Package    : kp.cmsc.cmsc98.ctr
- * @Description: 공통 Pilot 구현을 위한 클레스입니다.
+ * @Description: 공통 Pilot 구현을 위한 클래스입니다.
  * @Author     : 박대철
- * @Date       : 2024년. 05월. 25일
+ * @Date       : 2024년. 06월. 14일
  * @Version    : 0.1
- * 변경이 있을 때에는 수정 이ㅣ력에 변경일자와 변경자, 그리고 변경사유를 기록하여 관리가 되도록 한다.
+ * 변경이 있을 때에는 수정 이력에 변경일자와 변경자, 그리고 변경사유를 기록하여 관리가 되도록 한다.
  * ========================================================================================================
  *                                    수정 이력관리 (형상관리에도 Copy휴 반영)
  * --------------------------------------------------------------------------------------------------------
  *      수정일        수정자                                  수정내용
  * --------------------------------------------------------------------------------------------------------
- *   2024.05.15       박대철                                  최초작성
- *   2024.05.16       홍길동                     Method 수정및 추가작업
+ *   2024.06.13      박대철                                 최초작성
  * ========================================================================================================
  */
 @RestController
 @WebAppConfiguration
 @RequestMapping("/cm/cmsc98010000")
+@Slf4j
 public class Cmsc98010000Ctr {
 
     @Resource
     private Cmsc98010000Svc cmsc98010000Svr;
-    @Autowired
-    KnwpProperties knwpProperties;
-    /**
-     * @Discription
-     * 1. 개요
-     *  메소드에 대한 간단한 개요 기능등을 기술한다.
-     * 2. 주요처리로직
-     *  메소드에 대한 주요 처리 로직등을 기술 한다.
-     * 3. 예외처리
-     *  예외처리시 전처리 후처리등의 내용을 기술 한다.
-     * @Author: 박대철
-     * @param : Cm0101Vo vo
-     * @Date  : 2024-07-07
-     * @return: ModelAndView
-     * @throws Exception
-     */
-    @ResponseBody
-    @PostMapping(value = "/selectList00")
-    public ResponseEntity<List<Cmsc98010000Vo>> selectCommonCodeList(@RequestBody List<HashMap<String, Object>> list) throws Exception {
-        System.out.println("param : " + list);
-        System.out.println("knwpProperties:"+knwpProperties.getUploadPath());//프로퍼티 테스트
-        Cmsc98010000Vo vo = new Cmsc98010000Vo();
-        List<Cmsc98010000Vo> AllList = cmsc98010000Svr.selectCommonCodeList(list);
 
-        return new ResponseEntity<>(AllList, HttpStatus.OK);
+    /**
+     * @param : Cmsc98010000Vo
+     * @throws Exception
+     * @Discription 1. 오류메시지코드 관리 목록을 조회한다.
+     * @Author: 박대철
+     * @Date : 2024-06-07
+     * @return: ResponseEntity
+     */
+    @Operation(
+            summary = "오류메시지코드관리 목록조회",
+            description = "오류메시지코드관리 목록을 조회한다.",
+            parameters = {
+                    @Parameter(name = "swagConnect", description = "swagger 접속여부 플래그", example = "Y"),
+            }
+    )
+    @PostMapping(value = "/select00")
+    public ResponseEntity<Map<String, Object>> selectErrCdList(@RequestBody Cmsc98010000Vo inputVo) throws Exception {
+        log.info("inputVo======================>> : {}", inputVo);
+
+        Map<String, Object> result;
+        try {
+            result = cmsc98010000Svr.selectErrCdList(inputVo);
+        } catch (Exception e) {
+            log.error("Error processing request", e);
+            return ResponseEntity.status(500).body(Map.of("error", "Internal Server Error"));
+        }
+
+        return ResponseEntity.ok(result);
+    }
+
+    /**
+     * @param : Cmsc98010000Vo
+     * @throws Exception
+     * @Discription 1. 오류메시지코드 관리 목록을 등록/수정한다.
+     * @Author: 박대철
+     * @Date : 2024-06-16
+     * @return: ResponseEntity
+     */
+    @Operation(
+            summary = "오류메시지코드관리 목록등록/수정",
+            description = "오류메시지코드관리 목록을 등록/수정한다.",
+            parameters = {
+                    @Parameter(name = "swagConnect", description = "swagger 접속여부 플래그", example = "Y"),
+            }
+    )
+    @PostMapping(value = "/exec00")
+    public ResponseEntity<Map<String, Object>> excuteErrCdList(@RequestBody Cmsc98010000Vo inputVo) throws Exception {
+        log.info("inputVo======================>> : {}", inputVo);
+
+        Map<String, Object> result;
+        try {
+            result = cmsc98010000Svr.excuteErrCdList(inputVo);
+        } catch (Exception e) {
+            log.error("Error processing request", e);
+            return ResponseEntity.status(500).body(Map.of("error", "Internal Server Error"));
+        }
+
+        return ResponseEntity.ok(result);
     }
 }

@@ -6,6 +6,7 @@ package kp.cmsc.cmsc98.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import kp.cmsc.cmsc01.vo.Cmsc01030000Vo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -24,7 +25,7 @@ import kp.cmsc.cmsc98.vo.Cmsc98010000Vo;
 @Repository
 @Mapper
 public interface Cmsc98010000Dao {
-    //public HashMap<String, Object> selectCommonCodeOne(HashMap<String, Object> param)  throws Exception;
-    public List<Cmsc98010000Vo> selectCommonCodeList(@Param("list") List<HashMap<String, Object>> list)  throws Exception;
-
+    public List<Cmsc98010000Vo> selectErrCdList(Cmsc98010000Vo vo)  throws Exception;
+    public int insertErrCd(Cmsc98010000Vo vo) throws Exception ;
+    public int updateErrCd(Cmsc98010000Vo vo) throws Exception ;
 }

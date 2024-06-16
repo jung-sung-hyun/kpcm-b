@@ -25,7 +25,7 @@ public class Cmsc01020000SvcImpl implements Cmsc01020000Svc {
     @Autowired
     KnwpProperties knwpProperties;
     /**
-     * @Discription 1. 사용자의 로그인을 처리한다. 실폐 회수 5회 포함 인증 Hash 값 처리를 할수 있다.
+     * @Discription 1. 사용자의 로그인을 처리한다. 실패 회수 5회 포함 인증 Hash 값 처리를 할수 있다.
      * @Author: 홍길동
      * @param : Cmsc01010000Vo inputVo
      * @Date : 2024-01-07.13
@@ -33,8 +33,8 @@ public class Cmsc01020000SvcImpl implements Cmsc01020000Svc {
      * @throws Exception
      */
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "500", description = "Internal Server Error - KnwpException")
-        })
+        @ApiResponse(responseCode = "500", description = "Internal Server Error - KnwpException")
+    })
 
     @Override
     public Map<String, Object> select00(Cmsc01020000Vo inputVo) throws Exception{

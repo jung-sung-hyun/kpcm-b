@@ -13,16 +13,40 @@
     1. 2024.04.12/ 정성현/ 최초작성
     =======================================================
     -->
-    <select id="selectList00" parameterType="cmsc98010000VO" resultType="cmsc98010000VO">
+    <select id="selectErrCdList" parameterType="cmsc98010000VO" resultType="cmsc98010000VO">
         /*Cm9801Dao.selectCommonCodeList[게시판리스트조회]*/
-         SELECT GRP_CD
-         ,      CODE_CD
-         ,      CODE_NM
-           FROM TEST_CODE
-          WHERE GRP_CD IN
-          <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
-                #{item.codeCd}
-          </foreach>
-       ORDER BY GRP_CD
+         SELECT ROWNUM AS RNUM
+         ,      MSG_CD
+         ,      MSG_CN
+         ,      MSG_TYPE_CD
+         ,      USE_YN
+           FROM CM_MEG_CD_B
+          WHERE 1=1
+                <if test="msgCd != null and msgCd != ''">
+                    AND REGEXP_LIKE(MSG_CD, #{msgCd})
+                </if>
     </select>
+
+    <insert id="insertErrCd" parameterType="cmsc98010000VO">
+        INSERT INTO CM_MEG_CD_B (
+            MSG_CD,
+            MSG_CN,
+            MSG_TYPE_CD,
+            USE_YN
+        )
+        VALUES (
+            #{msgCd},
+            #{msgCn},
+            #{msgTypeCd},
+            #{useYn}
+         )
+    </insert>
+
+    <update id="updateErrCd" parameterType="cmsc98010000VO">
+        UPDATE CM_MEG_CD_B
+           SET MSG_CN = #{msgCn},
+               MSG_TYPE_CD = #{msgTypeCd},
+               USE_YN = #{useYn}
+         WHERE MSG_CD = #{msgCd}
+    </update>
 </mapper>
