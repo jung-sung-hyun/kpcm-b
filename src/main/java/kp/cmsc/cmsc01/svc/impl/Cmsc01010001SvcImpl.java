@@ -1,5 +1,7 @@
 package kp.cmsc.cmsc01.svc.impl;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -7,6 +9,7 @@ import kp.cmsc.cmsc01.dao.Cmsc01010001Dao;
 import kp.cmsc.cmsc01.svc.Cmsc01010001Svc;
 import kp.cmsc.cmsc01.vo.Cmsc01010000Vo;
 import kp.cmsc.cmsc01.vo.Cmsc01010001Vo;
+import kp.cmsc.common.parameters.ReturnParam;
 
 @Service
 public class Cmsc01010001SvcImpl implements Cmsc01010001Svc {
@@ -23,9 +26,8 @@ public class Cmsc01010001SvcImpl implements Cmsc01010001Svc {
      * @throws Exception
      */
     @Override
-    public void insert00(Cmsc01010000Vo vo) throws Exception {
-        // TODO Auto-generated method stub
-        cmsc01010001Dao.insert00(vo);
+    public Map<String, Object> insert00(Cmsc01010001Vo inputVo) throws Exception {
+        cmsc01010001Dao.insert00(inputVo);
+        return  ReturnParam.pushParamAction(inputVo);
     }
-
 }

@@ -46,7 +46,7 @@
         UPDATE CM_MEG_CD_B
            SET MSG_CN = #{msgCn},
                MSG_TYPE_CD = #{msgTypeCd},
-               USE_YN = #{useYn}
+               USE_YN = #{useYn}d
          WHERE MSG_CD = #{msgCd}
     </update>
 </mapper>

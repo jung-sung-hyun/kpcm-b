@@ -1,5 +1,7 @@
 package kp.cmsc.cmsc01.svc;
 
+import java.util.Map;
+
 import kp.cmsc.cmsc01.vo.Cmsc01010002Vo;
 /**
  * @Project : 차세대 지급결제플랫폼구축사업
@@ -11,6 +13,6 @@ import kp.cmsc.cmsc01.vo.Cmsc01010002Vo;
  * @Version : 0.1
  */
 public interface Cmsc01010002Svc {
-    public Cmsc01010002Vo select00(Cmsc01010002Vo vo) throws Exception;
-    public void delete00(Cmsc01010002Vo vo) throws Exception;
+    public Map<String, Object> select00(Cmsc01010002Vo inputVo) throws Exception ;
+    public Map<String, Object>  delete00(Cmsc01010002Vo inputVo) throws Exception ;
 }

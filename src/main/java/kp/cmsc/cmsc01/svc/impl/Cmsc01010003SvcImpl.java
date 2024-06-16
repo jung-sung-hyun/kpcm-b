@@ -1,11 +1,14 @@
 package kp.cmsc.cmsc01.svc.impl;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kp.cmsc.cmsc01.dao.Cmsc01010003Dao;
 import kp.cmsc.cmsc01.svc.Cmsc01010003Svc;
 import kp.cmsc.cmsc01.vo.Cmsc01010003Vo;
+import kp.cmsc.common.parameters.ReturnParam;
 
 @Service
 public class Cmsc01010003SvcImpl implements Cmsc01010003Svc {
@@ -20,8 +23,9 @@ public class Cmsc01010003SvcImpl implements Cmsc01010003Svc {
      * @throws Exception
      */
     @Override
-    public void update00(Cmsc01010003Vo vo) throws Exception {
-        cmsc01010003Dao.update00(vo);
+    public Map<String, Object> update00(Cmsc01010003Vo inputVo) throws Exception {
+        cmsc01010003Dao.update00(inputVo);
+        return ReturnParam.pushParamAction(inputVo);
     }
 
 
