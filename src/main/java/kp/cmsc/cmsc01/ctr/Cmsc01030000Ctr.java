@@ -4,9 +4,9 @@ import java.util.Map;
 
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,13 +16,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import kp.cmsc.cmsc01.svc.Cmsc01030000Svc;
-import kp.cmsc.cmsc01.vo.Cmsc01020000Vo;
 import kp.cmsc.cmsc01.vo.Cmsc01030000Vo;
 @RestController
 @WebAppConfiguration
 @RequestMapping("/cm/cmsc01030000")
 @Tag(
-    name       = "Cmsc01030000Ctr[관리자 권한메뉴관리]",
+    name       = "Cmsc01030000Ctr[관리자]권한메뉴관리",
     description=  "===================================================================</br>"
                 + " @Package    : kp.cmsc.cmsc01.ctr                                         </br>"
                 + " @Description: 사용자의 권한 별로 메뉴를 관리한다.                        </br>"
@@ -44,7 +43,7 @@ public class Cmsc01030000Ctr {
                         + " - 로그인된 관리자에 대해 권한으로 본인권한의 메뉴를 표시한다.                                                       </br>"
                         + " @Author     : 정성현                                                                                                </br>"
                         + " @Date       : 2024년. 05월. 25일                                                                                    </br>"
-                        + " @Version    : 0.1 변경이 있을 때에는 수정 이ㅣ력에 변경일자와 변경자, 그리고 변경사유를 기록하여 관리가 되도록 한다.</br>"
+                        + " @Version    : 0.1 변경이 있을 때에는 수정 이력에 변경일자와 변경자, 그리고 변경사유를 기록하여 관리가 되도록 한다.</br>"
                         + " @Update     :                                                                                                       </br>"
                         + "  - 2024.05.15 정성현 최초작성                                                                                       </br>"
                         + "  - 2024.05.16 홍길동 Method 수정및 추가작업                                                                         </br>"
@@ -65,7 +64,8 @@ public class Cmsc01030000Ctr {
             }
      )
      @ResponseBody
-     @PostMapping(value = "/selectList00")
+//     @PostMapping(value = "/selectList00")
+    @RequestMapping(value = "/selectList00", method = RequestMethod.POST)
     public Map<String, Object> selectList00(@RequestBody Cmsc01030000Vo inputVo, @ParameterObject Cmsc01030000Vo swaggerParam  ) throws Exception {
         return cmsc01030000Svc.selectList00(inputVo);
     }

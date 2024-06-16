@@ -4,9 +4,9 @@ import java.util.Map;
 
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,9 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @WebAppConfiguration
 @RequestMapping("/cm/cmsc01020000")
-@Slf4j
 @Tag(
-    name       = "Cmsc01020000Ctr[관리자 로그인]",
+    name       = "Cmsc01020000Ctr[관리자]로그인",
     description=  "===================================================================</br>"
                 + " @Package    : kp.cmsc.cmsc01.ctr                                             </br>"
                 + " @Description: 사용자의 로그인정보를 관리한다.                                </br>"
@@ -34,12 +33,12 @@ import lombok.extern.slf4j.Slf4j;
                 + " @Date       : 2024년. 05월. 25일                                             </br>"
                 + "===================================================================</br>"
 )
+@Slf4j
 public class Cmsc01020000Ctr {
 
     @Resource
     private Cmsc01020000Svc cmsc01020000Svc;
 
-    @ResponseBody
     @Operation(
         summary    = "[사용자 로그인]",
         description= "======================================================================================================================</br>"
@@ -58,8 +57,8 @@ public class Cmsc01020000Ctr {
                     + "=====================================================================================================================</br>",
 
         parameters = {
-            @Parameter(name= "mbrEmlAddr", description= "회원이메일주소-IN" , hidden= true,required = true),
-            @Parameter(name= "userPswd"  , description= "비밀번호-IN"       , hidden= true,required = true)
+            @Parameter(name= "mbrEmlAddr", description= "회원이메일주소-IN" , required = true ,hidden= true,example = "="),
+            @Parameter(name= "userPswd"  , description= "비밀번호-IN"     , required = true ,hidden= true,example = "=")
             },
         responses = {
             @ApiResponse(responseCode = "ERR.CM.0002", description = "사용자정보가 잘못 되었습니다.                                    "),
@@ -73,8 +72,11 @@ public class Cmsc01020000Ctr {
             @ApiResponse(responseCode = "500"        , description = "서버 내부 오류가 발생했습니다. 서버 관리자에게 문의하세요.       ")
         }
      )
-     @PostMapping(value = "/select00")
-     public Map<String, Object> select00( @RequestBody Cmsc01020000Vo  inputVo, @ParameterObject Cmsc01020000Vo swaggerParam  ) throws Exception{
+//     @io.swagger.v3.oas.annotations.parameters.RequestBody(
+//        content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+    @ResponseBody
+    @RequestMapping(value = "/select00", method = RequestMethod.POST)
+    public Map<String, Object> select00(  @RequestBody   Cmsc01020000Vo  inputVo ,@ParameterObject Cmsc01020000Vo swaggerParam) throws Exception{
           return cmsc01020000Svc.select00(inputVo);
     }
     @Operation(
@@ -88,7 +90,7 @@ public class Cmsc01020000Ctr {
                         + " - 특이사항없음                                                                                                      </br>"
                         + " @Author     : 정성현                                                                                                </br>"
                         + " @Date       : 2024년. 05월. 25일                                                                                    </br>"
-                        + " @Version    : 0.1 변경이 있을 때에는 수정 이력에 변경일자와 변경자, 그리고 변경사유를 기록하여 관리가 되도록 한다. </br>"
+                        + " @Version    : 0.1 변경이 있을 때에는 수정 이력에 변경일자와 변경자, 그리고 변경사유를 기록하여 관리가 되도록 한다.  </br>"
                         + " @Update     :                                                                                                       </br>"
                         + "  - 2024.05.15 정성현 최초작성                                                                                       </br>"
                         + "  - 2024.05.16 홍길동 Method 수정및 추가작업                                                                         </br>"
@@ -107,7 +109,7 @@ public class Cmsc01020000Ctr {
             }
      )
     @ResponseBody
-    @PostMapping(value = "/delete00")
+    @RequestMapping(value = "/delete00", method = RequestMethod.POST)
     public Map<String, Object>  delete00(@RequestBody Cmsc01020000Vo inputVo, @ParameterObject Cmsc01020000Vo swaggerParam) throws Exception {
         return cmsc01020000Svc.delete00(inputVo);
     }

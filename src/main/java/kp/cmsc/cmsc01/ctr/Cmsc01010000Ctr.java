@@ -4,9 +4,9 @@ import java.util.Map;
 
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +18,7 @@ import jakarta.annotation.Resource;
 import kp.cmsc.cmsc01.svc.Cmsc01010000Svc;
 import kp.cmsc.cmsc01.vo.Cmsc01010000Vo;
 @Tag(
-    name       = "Cmsc01010000Ctr[게시판리스트조회]",
+    name       = "Cmsc01010000Ctr[관리자]게시판",
     description=  "===================================================================</br>"
                 + " @Package    : kp.cmsc.cmsc01.ctr                  </br>"
                 + " @Description: 공통 Pilot 구현을 위한 클레스입니다.</br>"
@@ -45,7 +45,7 @@ public class Cmsc01010000Ctr {
                         + " - 특이사항없음                                                                                                      </br>"
                         + " @Author     : 정성현                                                                                                </br>"
                         + " @Date       : 2024년. 05월. 25일                                                                                    </br>"
-                        + " @Version    : 0.1 변경이 있을 때에는 수정 이ㅣ력에 변경일자와 변경자, 그리고 변경사유를 기록하여 관리가 되도록 한다.</br>"
+                        + " @Version    : 0.1 변경이 있을 때에는 수정 이력에 변경일자와 변경자, 그리고 변경사유를 기록하여 관리가 되도록 한다.</br>"
                         + " @Update     :                                                                                                       </br>"
                         + "  - 2024.05.15 정성현 최초작성                                                                                       </br>"
                         + "  - 2024.05.16 홍길동 Method 수정및 추가작업                                                                         </br>"
@@ -65,7 +65,8 @@ public class Cmsc01010000Ctr {
     }
      )
     @ResponseBody
-    @PostMapping(value = "/selectList00")
+//    @PostMapping(value = "/selectList00")
+    @RequestMapping(value = "/selectList00", method = RequestMethod.POST)
     public Map<String, Object>  selectBoardList(@RequestBody Cmsc01010000Vo inputVo, @ParameterObject Cmsc01010000Vo swaggerParam) throws Exception {
         return cmsc01010000Svc.selectList00(inputVo);
     }

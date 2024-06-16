@@ -4,7 +4,6 @@ import org.apache.ibatis.type.Alias;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 @Tag(
     name        = "관리자 로그인 Value Object[cmsc01020000Vo]",
