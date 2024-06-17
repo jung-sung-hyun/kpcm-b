@@ -129,6 +129,9 @@ log.info("==================afterCompletion==============ipRejectFlg>>>:{}",ipRe
                     log.info("Header: {} = {}", headerName, headerValue);
                 }
             }
+            log.info("==============requestBody========start=====================");
+            log.info(requestBody);
+            log.info("=================requestBody============end============");
             if(!"".equals(StringUtil.checkNull(requestBody))) {
                 requestInputParamSetJdbc.insertRequestInputData(ipAddr,requestBody.toString(),StringUtil.checkNull(resStatus), sbHeder.toString(),reqURL,macAddr);
             }

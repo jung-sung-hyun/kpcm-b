@@ -25,13 +25,13 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/cm/cmsc01020000")
 @Tag(
         name       = "Cmsc01020000Ctr[관리자]로그인",
-        description=  "===================================================================</br>"
+        description=  "==========================================================================</br>"
                 + " @Package    : kp.cmsc.cmsc01.ctr                                             </br>"
                 + " @Description: 사용자의 로그인정보를 관리한다.                                </br>"
                 + "               로그인된 관리자에 대해 인증정보를 생성하고 인증정보를 반환한다.</br>"
                 + " @Author     : 정성현                                                         </br>"
                 + " @Date       : 2024년. 05월. 25일                                             </br>"
-                + "===================================================================</br>"
+                + "==============================================================================</br>"
 )
 @Slf4j
 public class Cmsc01020000Ctr {
@@ -41,7 +41,7 @@ public class Cmsc01020000Ctr {
 
     @Operation(
             summary    = "[사용자 로그인]",
-            description= "======================================================================================================================</br>"
+            description= "============================================================================================================= ====</br>"
                     + " @Package    : kp.cmsc.cmsc01.ctr                                                                                    </br>"
                     + " @Method     : select00                                                                                              </br>"
                     + " @Description:                                                                                                       </br>"
@@ -72,8 +72,6 @@ public class Cmsc01020000Ctr {
                     @ApiResponse(responseCode = "500"        , description = "서버 내부 오류가 발생했습니다. 서버 관리자에게 문의하세요.       ")
             }
     )
-//     @io.swagger.v3.oas.annotations.parameters.RequestBody(
-//        content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     @ResponseBody
     @RequestMapping(value = "/select00", method = RequestMethod.POST)
     public Map<String, Object> select00(  @RequestBody   Cmsc01020000Vo  inputVo ,@ParameterObject Cmsc01020000Vo swaggerParam) throws Exception{
@@ -81,7 +79,7 @@ public class Cmsc01020000Ctr {
     }
     @Operation(
             summary = "사용자 인증삭제",
-            description= "======================================================================================================================</br>"
+            description= "==================================================== =============================================================</br>"
                     + " @Package    : kp.cmsc.cmsc01.ctr                                                                                    </br>"
                     + " @Method     : delete00                                                                                              </br>"
                     + " @Description:                                                                                                       </br>"
