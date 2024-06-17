@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kp.cmsc.cmsc00.dao.Cmsc00000000Dao">
+    <!-- 
+       - SQL  명  : 버튼권한리스트
+       - 작 성 자 : 정성현
+       - 작 성 일 : 2024-06-17
+       - 파라미터
+         1. authrtId    String(10)//권한ID
+       - 이력관리
+    =================수정일자/요청자/내용 =================
+    1. 2024.04.12/ 정성현/ 최초작성
+    =======================================================
+    -->
+    <select id="selectList00" parameterType="cmsc00000000Vo" resultType="cmsc00000000Vo">
+        /*Cmsc00000000Dao.selectList00[권한버튼리스트]*/
+           SELECT T1.CMMN_CD_NM AS BTN_NM
+                , T2.BTN_CD
+             FROM SC_CMMN_CD_D T1
+        INNER JOIN SC_AUTHRT_MENU_BTN_DSCTN_B T2 ON
+                   T1.CMMN_CD  = T2.BTN_CD 
+               AND T2.AUTHRT_ID IN
+	                <foreach item="id" collection="idList" open="(" separator="," close=")">
+	                    #{authrtId}
+	                </foreach>
+                )
+               AND T2.MENU_ID= #{menuId}
+    </select>
+
+</mapper>
