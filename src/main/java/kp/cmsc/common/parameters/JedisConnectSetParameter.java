@@ -65,7 +65,7 @@ public class JedisConnectSetParameter {
         // 기본적인 연결 테스트
         String jedisPong = jedis.ping();
         log.info("==========================jedisPong>>>:{}",jedisPong);
-        if("PONG".equals(jedisPong)) {
+        if(hashCode != null && "PONG".equals(jedisPong)) {
             String sUuserInfo = jedis.get(hashCode);
             jedis.close();
             return sUuserInfo;
