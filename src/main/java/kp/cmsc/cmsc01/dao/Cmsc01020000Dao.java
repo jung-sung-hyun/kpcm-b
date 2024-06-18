@@ -4,6 +4,7 @@
 package kp.cmsc.cmsc01.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import kp.cmsc.cmsc01.vo.Cmsc01020000Vo;

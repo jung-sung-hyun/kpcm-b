@@ -4,6 +4,7 @@ import org.apache.ibatis.type.Alias;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import kp.cmsc.cmsc00.vo.Cmsc00000000Vo;
 import lombok.Data;
 @Tag(
         name        = "관리자 로그인 Value Object[cmsc01020000Vo]",
@@ -11,7 +12,7 @@ import lombok.Data;
 )
 @Data
 @Alias(value = "cmsc01020000Vo")
-public class Cmsc01020000Vo {
+public class Cmsc01020000Vo extends Cmsc00000000Vo{
     // 회원정보
     @Schema(description = "회원 이메일-OUT")
     private String mbrEmlAddr         ;// 회원이메일주소
@@ -63,5 +64,7 @@ public class Cmsc01020000Vo {
     private String connectHash        ;// connect hash code
     @Schema(description = "화면에 메세지 전달-OUT")
     private String message            ;// 화면에 메세지 전달
+    @Schema(description = "세션IP-OUT")
+    public String sessionIp;//세션IP
 
 }

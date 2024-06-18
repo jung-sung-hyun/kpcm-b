@@ -25,6 +25,13 @@ public class Cmsc01010001SvcImpl implements Cmsc01010001Svc {
      * @return: ModelAndView
      * @throws Exception
      */
+    /**
+     *
+     * @param : Cmsc01010000Vo vo
+     * @Date : 2024-01-07.13
+     * @return: ModelAndView
+     * @throws Exception
+     */
     @Override
     public Map<String, Object> insert00(Cmsc01010001Vo inputVo) throws Exception {
         cmsc01010001Dao.insert00(inputVo);

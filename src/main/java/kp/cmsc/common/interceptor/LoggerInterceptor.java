@@ -10,7 +10,10 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -22,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import kp.cmsc.common.util.JsonUtil;
 import kp.cmsc.common.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
@@ -35,6 +39,9 @@ public class LoggerInterceptor implements HandlerInterceptor {
     @Autowired
     private RequestIpReject requestIpReject;
 
+    @Autowired
+    private SqlSessionFactory sqlSessionFactory;
+
     private final ObjectMapper objectMapper;
 
     public LoggerInterceptor(ObjectMapper objectMapper) {
@@ -47,6 +54,8 @@ public class LoggerInterceptor implements HandlerInterceptor {
 //          log.info("===================request.getMethod()==========================");
 //          log.info(request.getMethod());
 //          log.info("==========================request.getMethod()===================");
+            //request.getSession().setAttribute("sessionIp", "127.0.0.1");
+
         if (!(request instanceof ContentCachingRequestWrapper)) {
             request = new ContentCachingRequestWrapper(request);
         }
@@ -56,6 +65,7 @@ public class LoggerInterceptor implements HandlerInterceptor {
 
         String ipAddr = getLocalAddress().toString().replace("/", "");
         log.info("==================ipAddr==>>>",ipAddr);
+        // bindIpAddressToMyBatis(request);
 //      String ipAddr =  LocalIpAddressUtil.getClientIP(cachingRequest);
       boolean ipRejectFlg = requestIpReject.selecdtRequestIpReject(ipAddr);
       log.info("==================preHandle==============ipRejectFlg>>>:{}",ipRejectFlg);
@@ -131,7 +141,8 @@ log.info("==================afterCompletion==============ipRejectFlg>>>:{}",ipRe
             }
             log.info("==============requestBody========start=====================");
             log.info(requestBody);
-            log.info("=================requestBody============end============");
+            Map<String, Object> listMap = JsonUtil.parseJsonToMap(requestBody);
+            log.info("=================requestBody============end============>>{}",listMap);
             if(!"".equals(StringUtil.checkNull(requestBody))) {
                 requestInputParamSetJdbc.insertRequestInputData(ipAddr,requestBody.toString(),StringUtil.checkNull(resStatus), sbHeder.toString(),reqURL,macAddr);
             }
@@ -224,6 +235,36 @@ log.info("==================afterCompletion==============ipRejectFlg>>>:{}",ipRe
         }
         return macAddr;
     }
+
+    // private void bindIpAddressToMyBatis(HttpServletRequest request) {
+    //     String sessionIp = request.getRemoteAddr();
+    //     log.info("IP Address: {}", sessionIp);
+
+    //     try (SqlSession session = sqlSessionFactory.openSession()) {
+    //         session.insert("kp.cmsc.cmsc01.dao.Cmsc01020000Dao.select00", sessionIp);
+    //         session.commit();
+    //     } catch (Exception e) {
+    //         log.error("Error while binding IP address to MyBatis", e);
+    //     }
+    // }
+
+
+    // private void bindIpAddressToMyBatis(HttpServletRequest request) {
+    //     String ipAddress = request.getRemoteAddr();
+    //     log.info("IP Address: {}", ipAddress);
+
+    //     try (SqlSession session = sqlSessionFactory.openSession()) {
+    //         session.insert("kp.cmsc.common.mapper.MyBatisMapper.insertIpAddress", ipAddress);
+    //         session.commit();
+
+    //         List<Map<String, Object>> results = session.selectList("kp.cmsc.common.mapper.MyBatisMapper.selectAllIpAddresses", new TypeToken<Map<String, Object>>(){}.getType());
+    //         for (Map<String, Object> result : results) {
+    //             log.info("Result: {}", result);
+    //         }
+    //     } catch (Exception e) {
+    //         log.error("Error while binding IP address to MyBatis", e);
+    //     }
+    // }
 
 
 }

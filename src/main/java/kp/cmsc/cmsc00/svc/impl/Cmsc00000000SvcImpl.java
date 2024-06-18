@@ -34,20 +34,11 @@ public class Cmsc00000000SvcImpl implements Cmsc00000000Svc {
      */
     @Override
     public Map<String, Object>  selectList00(Cmsc00000000Vo inputVo) throws Exception {
-        String userInfo = JedisConnectSetParameter.getUserAuthInfo(knwpProperties,inputVo.getConnectHash());
-        log.debug(userInfo);
         List<Cmsc00000000Vo> outputVo = new ArrayList<Cmsc00000000Vo>();
         try {
-            outputVo = cmsc00000000Dao.selectList00(inputVo,null);
-            if(userInfo != null) {
-                String[] aUserInfo = userInfo.split("&&");
-                List<String> list = new ArrayList<>();
-                if(aUserInfo.length > 0) {
-                    log.debug(aUserInfo[0]);
-                    String[] sAuthCd = aUserInfo[0].split(",");
-                    list = (List<String>)JsonUtil.getInstance().convertMapToObject(sAuthCd, list);
-                }
-                outputVo = cmsc00000000Dao.selectList00(inputVo,list);
+            List<String> authList = JedisConnectSetParameter.getUserAuthInfo(knwpProperties,inputVo.getConnectHash());
+            if(authList != null) {
+                outputVo = cmsc00000000Dao.selectList00(inputVo,authList);
             }else {
                 return ReturnParam.pushErrorAction("SYS.CM.0003");
             }

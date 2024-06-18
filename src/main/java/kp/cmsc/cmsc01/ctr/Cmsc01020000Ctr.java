@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import kp.cmsc.cmsc01.svc.Cmsc01020000Svc;
 import kp.cmsc.cmsc01.vo.Cmsc01020000Vo;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +42,7 @@ public class Cmsc01020000Ctr {
 
     @Operation(
             summary    = "[사용자 로그인]",
-            description= "============================================================================================================= ====</br>"
+            description= "==================================================================================================================</br>"
                     + " @Package    : kp.cmsc.cmsc01.ctr                                                                                    </br>"
                     + " @Method     : select00                                                                                              </br>"
                     + " @Description:                                                                                                       </br>"
@@ -53,7 +54,10 @@ public class Cmsc01020000Ctr {
                     + " @Version    : 0.1 변경이 있을 때에는 수정 이력에 변경일자와 변경자, 그리고 변경사유를 기록하여 관리가 되도록 한다.  </br>"
                     + " @Update     :                                                                                                       </br>"
                     + "  - 2024.05.15 정성현 최초작성                                                                                       </br>"
-                    + "  - 2024.05.16 홍길동 Method 수정및 추가작업                                                                         </br>"
+                    + "  - Method:select00                                                                                                  </br>"
+                    + "    * 2024.05.16 홍길동 Method 수정 및 추가작업                                                                      </br>"
+                    + "  - SQL:select00                                                                                                     </br>"
+                    + "    * 2024.05.15 5회접속 이력관련 SQL 추가함                                                                         </br>"
                     + "=====================================================================================================================</br>",
 
             parameters = {
@@ -74,12 +78,13 @@ public class Cmsc01020000Ctr {
     )
     @ResponseBody
     @RequestMapping(value = "/select00", method = RequestMethod.POST)
-    public Map<String, Object> select00(  @RequestBody   Cmsc01020000Vo  inputVo ,@ParameterObject Cmsc01020000Vo swaggerParam) throws Exception{
+    public Map<String, Object> select00(  @RequestBody   Cmsc01020000Vo  inputVo ,@ParameterObject Cmsc01020000Vo swaggerParam,HttpServletRequest request) throws Exception{
+        log.info("=======================inputVo=====>::>>{}",inputVo);
         return cmsc01020000Svc.select00(inputVo);
     }
     @Operation(
             summary = "사용자 인증삭제",
-            description= "==================================================== =============================================================</br>"
+            description= "==================================================================================================================</br>"
                     + " @Package    : kp.cmsc.cmsc01.ctr                                                                                    </br>"
                     + " @Method     : delete00                                                                                              </br>"
                     + " @Description:                                                                                                       </br>"
@@ -88,10 +93,13 @@ public class Cmsc01020000Ctr {
                     + " - 특이사항없음                                                                                                      </br>"
                     + " @Author     : 정성현                                                                                                </br>"
                     + " @Date       : 2024년. 05월. 25일                                                                                    </br>"
-                    + " @Version    : 0.1 변경이 있을 때에는 수정 이력에 변경일자와 변경자, 그리고 변경사유를 기록하여 관리가 되도록 한다.  </br>"
+                    + " @Version    : 0.1                                                                                                   </br>"
                     + " @Update     :                                                                                                       </br>"
                     + "  - 2024.05.15 정성현 최초작성                                                                                       </br>"
-                    + "  - 2024.05.16 홍길동 Method 수정및 추가작업                                                                         </br>"
+                    + "  - Method:select00                                                                                                  </br>"
+                    + "    * 2024.05.16 홍길동 Method 수정및 추가작업                                                                       </br>"
+                    + "  - SQL:select00                                                                                                     </br>"
+                    + "  - 2024.05.15 5회접속 이력관련 SQL 추가함                                                                           </br>"
                     + "=====================================================================================================================</br>",
             parameters = {
                     @Parameter(name= "connectHash", description= "사용자인증키-IN" , hidden= true,required = true)

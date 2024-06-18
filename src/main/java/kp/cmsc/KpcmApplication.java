@@ -6,9 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import kp.cmsc.common.config.DataSourceService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication()
+//@EnableConfigurationProperties(KnwpProperties.class)
 @Slf4j
 public class KpcmApplication {
 

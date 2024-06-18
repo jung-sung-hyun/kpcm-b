@@ -15,11 +15,9 @@ public class Cmsc00000000Vo{
     @Schema(description = "버튼명칭-OUT")
     private String btnNm;//버튼명칭
     @Schema(description = "버튼코드-OUT")
-    private String btnCd;//버튼코드
+    public String btnCd;//버튼코드
     @Schema(description = "메뉴-OUT")
-    private String menuId;//메뉴ID
-
-
-
-
+    public String menuId;//메뉴ID
+    @Schema(description = "세션IP-OUT")
+    public String sessionIp;//세션IP
 }

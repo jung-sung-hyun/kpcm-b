@@ -152,4 +152,21 @@ public class JsonUtil {
         // 소요시간(s): " + this.getElapsedSec(startTime));
         return data;
     }
+
+/**
+ * Parses a JSON string into a Map<String, Object> using Gson library.
+ *
+ * @param json The JSON string to parse
+ * @return The parsed Map<String, Object> or null if an error occurs
+ */
+public static Map<String, Object> parseJsonToMap(String json) {
+    try {
+        Gson gson = new Gson();
+        Map<String, Object> data = gson.fromJson(json, new TypeToken<Map<String, Object>>() {}.getType());
+        return data;
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null;
+    }
+}
 }
